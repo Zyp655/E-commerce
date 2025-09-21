@@ -1,7 +1,8 @@
 import 'package:e_commerce/Services/auth_service.dart';
+import 'package:e_commerce/View/Role_based_login/User/user_app_first_screen.dart';
 import 'package:e_commerce/View/Role_based_login/signup_screen.dart';
 import 'package:flutter/material.dart';
-import '../home_screen.dart';
+import 'Admin/Screen/admin_home_screen.dart';
 
 class LoginScreen extends StatefulWidget{
   const LoginScreen({super.key});
@@ -32,13 +33,13 @@ class _LoginScreenState extends State<LoginScreen>{
     if(result == 'Admin'){
       Navigator.pushReplacement(
           context, MaterialPageRoute(
-            builder: (_)=>const AdminScreen(),
+            builder: (_)=>const AdminHomeScreen(),
       )
       );
-    }else if(result=='user'){
+    }else if(result=='User'){
       Navigator.pushReplacement(context,
           MaterialPageRoute(
-              builder: (_)=>const UserScreen(),
+              builder: (_)=>const UserAppFirstScreen(),
           )
       );
     }else{
@@ -61,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen>{
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  Image.asset("assets/Screenshot 2025-07-21 193648.png"),
+                  Image.asset("assets/picture/login.png"),
                   const SizedBox(height: 20,),
                   TextField(
                     controller: emailController,

@@ -1,16 +1,11 @@
-import 'dart:developer';
-
 import 'package:e_commerce/Services/auth_service.dart';
 import 'package:flutter/material.dart';
-
 import 'login_screen.dart';
 
 class SignupScreen extends StatefulWidget{
   const SignupScreen({super.key});
-
   @override
   State<StatefulWidget> createState() =>_SignupScreenState();
-
 }
 
 class _SignupScreenState extends State<SignupScreen>{
@@ -71,7 +66,7 @@ class _SignupScreenState extends State<SignupScreen>{
         child:SingleChildScrollView(
         child: Column(
           children: [
-            Image.asset("assets/Screenshot 2025-07-21 194635.png"),
+            Image.asset("assets/picture/signup.png"),
             const SizedBox(height: 30,),
             TextField(
               controller: emailController,
