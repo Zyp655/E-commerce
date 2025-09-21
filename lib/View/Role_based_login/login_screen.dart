@@ -1,6 +1,7 @@
 import 'package:e_commerce/Services/auth_service.dart';
-import 'package:e_commerce/View/signup_screen.dart';
+import 'package:e_commerce/View/Role_based_login/signup_screen.dart';
 import 'package:flutter/material.dart';
+import '../home_screen.dart';
 
 class LoginScreen extends StatefulWidget{
   const LoginScreen({super.key});
@@ -27,10 +28,27 @@ class _LoginScreenState extends State<LoginScreen>{
     setState(() {
       _isLoading=false;
     });
+    if(!mounted) return;
     if(result == 'Admin'){
       Navigator.pushReplacement(
           context, MaterialPageRoute(
-            builder: (_)=>SignupScreen()));
+            builder: (_)=>const AdminScreen(),
+      )
+      );
+    }else if(result=='user'){
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(
+              builder: (_)=>const UserScreen(),
+          )
+      );
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'sign up failed $result',
+            ),
+          )
+      );
     }
   }
 
@@ -83,27 +101,26 @@ class _LoginScreenState extends State<LoginScreen>{
                   SizedBox(
                     width: double.infinity,
                     child:ElevatedButton(
-                        onPressed: (){
-
-                        },
+                        onPressed: login,
                         child: Text('Login'),
                     )
                   ),
 
                   const SizedBox(height: 15,),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'Dont have an account',
+                        'Dont have an account ',
                         style: TextStyle(fontSize: 18),
                       ),
                       InkWell(
                         onTap: (){
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>SignupScreen()));
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>const SignupScreen()));
                         },
                         child: const Text(
-                          'Sign up here',
+                          '  Sign up here',
+
                            style:TextStyle(
                              fontSize: 18,
                              fontWeight: FontWeight.bold,

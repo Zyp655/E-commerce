@@ -1,8 +1,9 @@
 import 'dart:developer';
 
 import 'package:e_commerce/Services/auth_service.dart';
-import 'package:e_commerce/View/login_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'login_screen.dart';
 
 class SignupScreen extends StatefulWidget{
   const SignupScreen({super.key});
@@ -71,7 +72,7 @@ class _SignupScreenState extends State<SignupScreen>{
         child: Column(
           children: [
             Image.asset("assets/Screenshot 2025-07-21 194635.png"),
-            const SizedBox(height: 20,),
+            const SizedBox(height: 30,),
             TextField(
               controller: emailController,
               decoration: InputDecoration(
@@ -170,20 +171,22 @@ class _SignupScreenState extends State<SignupScreen>{
                 )
             ),
 
-            const SizedBox(height: 15,),
+            const SizedBox(height: 20,),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'already have an account',
+                  'already have an account? ',
                   style: TextStyle(fontSize: 18),
                 ),
                 InkWell(
                   onTap: (){
-                    Navigator.push(context,MaterialPageRoute(builder: (_)=>const LoginScreen()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_)=>const LoginScreen())
+                    );
                   },
                   child: const Text(
-                      'login up here',
+                      ' login up here',
                       style:TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,

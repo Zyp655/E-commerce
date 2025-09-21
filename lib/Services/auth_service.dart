@@ -54,4 +54,7 @@ class AuthService{
     }
   }
 
+  signOut() async{
+    _auth.signOut();
+  }
 }
