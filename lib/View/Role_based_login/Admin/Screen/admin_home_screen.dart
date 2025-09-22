@@ -11,9 +11,9 @@ class AdminHomeScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueAccent,
+      backgroundColor: Colors.blueAccent[70],
       appBar: AppBar(
-        title: const Text('Admin Screen'),
+        title: const Text('Admin Screen',),
         backgroundColor: Colors.cyanAccent,
         foregroundColor: Colors.white,
       ),
@@ -43,7 +43,7 @@ class AdminHomeScreen extends StatelessWidget{
         onPressed: ()async{
           await Navigator.of(context).push(
               MaterialPageRoute(
-                  builder: (context) => const AddItems(),
+                  builder: (context) =>  AddItems(),
               ));
         },
         child: const Icon(Icons.add, color: Colors.purpleAccent,),
