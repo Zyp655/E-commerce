@@ -1,6 +1,11 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
+import 'dart:ui';
 
-class AddItems extends StatelessWidget {
+import 'package:e_commerce/View/Role_based_login/Admin/Controller/add_items_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class AddItems extends ConsumerWidget {
   final TextEditingController _nameController=TextEditingController();
   final TextEditingController _priceController=TextEditingController();
   final TextEditingController _sizeController=TextEditingController();
@@ -13,7 +18,10 @@ class AddItems extends StatelessWidget {
 
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context , WidgetRef ref) {
+    final state = ref.watch(addItemProvider);
+    final notifier = ref.read(addItemProvider.notifier);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -35,11 +43,22 @@ class AddItems extends StatelessWidget {
                     border: Border.all(),
                     borderRadius: BorderRadius.circular(10),
                   ),
+                  child: state.imagePath!=null ? ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.file(
+                        File(state.imagePath!),
+                        fit:BoxFit.cover,
+                    ),
+                  ):state.isLoading ?
+                    CircularProgressIndicator():
+                      GestureDetector(
+                        onTap: notifier.pickImage,
+                        child: const Icon(Icons.camera_alt, size: 20,),
+                      ),
                 ),
               ),
 
               SizedBox(height: 10,),
-
               TextField(
                 controller:_nameController ,
                 decoration:const  InputDecoration(
@@ -57,9 +76,21 @@ class AddItems extends StatelessWidget {
                 ),
               ),
               
-              DropdownButtonFormField(
-                  items: items,
-                  onChanged: onChanged),
+              DropdownButtonFormField<String>(
+                  initialValue: state.selectedCategory,
+                  decoration: InputDecoration(
+                    labelText: 'Selected Category',
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: notifier.setSelectedCategory,
+                  items: state.categories.map((String category){
+                    return DropdownMenuItem<String>(
+                      value: category,
+                      child: Text(category),
+                    );
+                  }).toList(),
+              ),
+
               SizedBox(height: 10,),
               TextField(
                 controller:_colorController ,
@@ -67,6 +98,20 @@ class AddItems extends StatelessWidget {
                   labelText: 'Color(comma separated)',
                   border: OutlineInputBorder(),
                 ),
+                onSubmitted: (value){
+                  notifier.addColor(value);
+                  _colorController.clear();
+                },
+              ),
+
+              Wrap(
+                spacing: 8,
+                children: state.colors.map(
+                      (color)=>Chip(
+                      onDeleted: ()=>notifier.removeSize(color),
+                      label: Text(color)
+                  ),
+                ).toList(),
               ),
 
               SizedBox(height: 10,),
@@ -76,16 +121,50 @@ class AddItems extends StatelessWidget {
                   labelText: 'Sized (comma separated)',
                   border: OutlineInputBorder(),
                 ),
+                onSubmitted: (value){
+                  notifier.addSize(value);
+                  _sizeController.clear();
+                },
               ),
 
-              SizedBox(height: 10,),
-              TextField(
-                controller:_discountpercentageController ,
-                decoration:const  InputDecoration(
-                  labelText: 'Discount Percentage(%)',
-                  border: OutlineInputBorder(),
+              Wrap(
+                spacing: 8,
+                children: state.sizes.map(
+                    (size)=>Chip(
+                      onDeleted: ()=>notifier.removeSize(size),
+                        label: Text(size)
+                    ),
+                ).toList(),
+              ),
+
+              Row(children: [
+                Checkbox(
+                    value: state.isDiscounted,
+                    onChanged: notifier.toogleDiscount
                 ),
-              )
+                const Text('apply discount'),
+              ],),
+
+              if(state.isDiscounted)
+                Column(
+                  children: [
+                    TextField(
+                      controller: _discountpercentageController,
+                      decoration: const InputDecoration(
+                        labelText: 'Discount percentage (%)',
+                        border: OutlineInputBorder(),
+                      ),
+                      onChanged: (value){
+                        notifier.setDiscountPercentage(value);
+                      },
+                    ),
+                    const SizedBox(height: 10,),
+                    state.isLoading ?Center(
+                      child: CircularProgressIndicator(),
+                    ) :Center(),
+                  ],
+                ),
+              const SizedBox(height: 20,)
             ],
       ),
       ),

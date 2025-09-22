@@ -4,6 +4,7 @@ import 'package:e_commerce/View/Role_based_login/User/user_app_first_screen.dart
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'View/Role_based_login/login_screen.dart';
 import 'firebase_options.dart';
 
@@ -21,13 +22,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+    return const ProviderScope(
+      child: MaterialApp (
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        home: AuthStateHandler(),
       ),
-      home: AuthStateHandler(),
     );
   }
 }

@@ -57,7 +57,7 @@ class AddItemNotifer extends StateNotifier <AddItemState> {
     state=state.copyWith(isDiscounted: isDiscounted ?? false);
   }
 
-  void SetDiscountPercentage(String percentage){
+  void setDiscountPercentage(String percentage){
     state=state.copyWith(discountPercentage: percentage);
   }
 
