@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:e_commerce/View/Role_based_login/Admin/Controller/add_items_controller.dart';
+import 'package:e_commerce/Widgets/my_button.dart';
+import 'package:e_commerce/Widgets/show_scackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -108,7 +110,7 @@ class AddItems extends ConsumerWidget {
                 spacing: 8,
                 children: state.colors.map(
                       (color)=>Chip(
-                      onDeleted: ()=>notifier.removeSize(color),
+                      onDeleted: ()=>notifier.removeColor(color),
                       label: Text(color)
                   ),
                 ).toList(),
@@ -158,13 +160,29 @@ class AddItems extends ConsumerWidget {
                         notifier.setDiscountPercentage(value);
                       },
                     ),
-                    const SizedBox(height: 10,),
-                    state.isLoading ?Center(
-                      child: CircularProgressIndicator(),
-                    ) :Center(),
                   ],
                 ),
-              const SizedBox(height: 20,)
+              const SizedBox(height: 20,),
+              const SizedBox(height: 10,),
+              state.isLoading ?Center(
+                child: CircularProgressIndicator(),
+              ) :Center(
+                child: MyButton(
+                  onTab: ()async{
+                    try{
+                      await notifier.uploadAndSaveItem(
+                          _nameController.text,
+                          _priceController.text
+                      );
+                      showSnakeBar(context, 'Item added successfully');
+                      Navigator.of(context).pop();
+                    }catch(e){
+                      showSnakeBar(context, 'Error $e');
+                    }
+                  },
+                  buttonText: 'Save item',
+                ),
+              ),
             ],
       ),
       ),
