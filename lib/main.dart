@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/View/Role_based_login/Admin/Screen/admin_home_screen.dart';
-import 'package:e_commerce/View/Role_based_login/User/user_app_first_screen.dart';
+import 'package:e_commerce/View/Role_based_login/User/app_main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +83,7 @@ class _AuthStateHandlerState extends State<AuthStateHandler> {
     }
     return _userRole == 'Admin'
         ? AdminHomeScreen()
-        : UserAppFirstScreen();
+        : AppMainScreen();
   }
 
 }
