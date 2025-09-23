@@ -2,24 +2,37 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/View/Role_based_login/Admin/Screen/add_items.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../Services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 import '../../login_screen.dart';
 final AuthService _authService=AuthService();
-class AdminHomeScreen extends StatefulWidget{
+class AdminHomeScreen extends ConsumerStatefulWidget{
   const AdminHomeScreen({super.key});
 
   @override
-  State<AdminHomeScreen> createState() => _AdminHomeScreenState();
+  ConsumerState<AdminHomeScreen> createState() => _AdminHomeScreenState();
 }
 
-class _AdminHomeScreenState extends State<AdminHomeScreen> {
+class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen> {
   final CollectionReference items=
     FirebaseFirestore.instance.collection('items');
     String? selectedCategory;
     List<String> categories=[];
+    @override
+  void initState() {
+    fetchCategories();
+    super.initState();
+  }
+  Future<void> fetchCategories()async{
+      QuerySnapshot snapshot=
+        await FirebaseFirestore.instance.collection('Category').get();
+      setState(() {
+        categories=snapshot.docs.map((doc)=> doc['name'] as String).toList();
+      });
+  }
   @override
   Widget build(BuildContext context) {
     String uid=FirebaseAuth.instance.currentUser!.uid;
@@ -32,12 +45,40 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               children: [
                 Row(
                   children: [
-                    Text(
+                    const Text(
                       'Your Upload Items',
                       style: TextStyle(
                         fontSize :18,
                         fontWeight: FontWeight.bold,
                       ),
+                    ),
+                    const Spacer(),
+                    Stack(
+                      children: [
+                        IconButton(
+                          onPressed: (){},
+                          icon: const Icon(Icons.receipt_long),
+                        ),
+                        const Positioned(
+                          top: 6,
+                          right: 8,
+                          child: CircleAvatar(
+                            radius: 9,
+                            backgroundColor: Colors.red,
+                            child: Center(
+                              child: Text(
+                                '0',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ),
+                          )
+                        )
+
+                    ],
                     ),
                     GestureDetector(
                       onTap: (){
@@ -48,9 +89,26 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                                 builder: (context) => const LoginScreen(),
                             )
                         );
+
                       },
                       child: const Icon(Icons.exit_to_app),
+                    ),
 
+                    DropdownButton<String>(
+                        items: categories.map((String category){
+                          return DropdownMenuItem(
+                            value: category,
+                            child: Text(category) ,
+                          );
+                        }).toList(),
+                      icon:  const Icon(Icons.tune),
+                      underline: const SizedBox(),
+                      onChanged: (String? newValue){
+                          setState(() {
+                            selectedCategory=
+                                newValue;
+                          });
+                      },
                     )
                   ],
                 ),
