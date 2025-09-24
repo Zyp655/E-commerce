@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'app_home_screen.dart';
 class AppMainScreen extends StatefulWidget {
   const AppMainScreen({super.key});
 
@@ -10,7 +11,7 @@ class AppMainScreen extends StatefulWidget {
 class _AppMainScreenState extends State<AppMainScreen> {
   int selectedIndex=0;
   final List pages=[
-    const Scaffold(),
+    const AppHomeScreen(),
     const Scaffold(),
     const Scaffold(),
     const Scaffold(),

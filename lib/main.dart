@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_commerce/View/Role_based_login/Admin/Screen/admin_home_screen.dart';
-import 'package:e_commerce/View/Role_based_login/User/app_main_screen.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'View/Admin/Screen/admin_home_screen.dart';
 import 'View/Role_based_login/login_screen.dart';
+import 'View/User/app_main_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {

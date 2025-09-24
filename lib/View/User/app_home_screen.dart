@@ -1,0 +1,148 @@
+import 'package:e_commerce/Models/category_model.dart';
+import 'package:e_commerce/Utils/colors.dart';
+import 'package:e_commerce/View/Widgets/banner.dart';
+import 'package:flutter/material.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
+
+class AppHomeScreen extends StatefulWidget {
+  const AppHomeScreen({super.key});
+
+  @override
+  State<AppHomeScreen> createState() => _AppHomeScreenState();
+}
+
+class _AppHomeScreenState extends State<AppHomeScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height:  50,),
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Image.asset(
+                    'assets/Auth/login.png',
+                    height: 40,
+                  ),
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Icon(
+                        Iconsax.shopping_bag,
+                        size: 28,
+                      ),
+                      Positioned(
+                        right: -3,top: -5 ,
+                          child: Container(
+                            padding: EdgeInsets.all(4) ,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Text(
+                                  '3',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                              ),
+                            ),
+                          ),
+                      ),
+                    ],
+                  )
+
+                ],
+              ),
+            ),
+            const SizedBox(height: 20,),
+            const MyBanner(),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20,vertical: 18),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                Text(
+                  'Shop by category',
+                  style: TextStyle(
+                    fontSize:16,
+                    letterSpacing: 0,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                  Text('See all',
+                    style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black45,
+                  ),
+                ),
+              ],
+              ),
+            ),
+
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: List.generate(
+                  category.length,
+                    (index)=>InkWell(
+                      child:Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: CircleAvatar(
+                              radius: 30,
+                              backgroundColor: fbackgroundColor1,
+                              backgroundImage: AssetImage(
+                                category[index].image,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 10,),
+                          Text(category[index].name),
+                        ],
+                      ) ,
+                )),
+              ),
+            ),
+            //2h10
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20,vertical: 18),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Shop by category',
+                    style: TextStyle(
+                      fontSize:16,
+                      letterSpacing: 0,
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Text('See all',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black45,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(children: List.generate(, generator),),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

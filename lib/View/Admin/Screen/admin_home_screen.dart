@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_commerce/View/Role_based_login/Admin/Screen/add_items.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../../Services/auth_service.dart';
 import 'package:flutter/material.dart';
 
-import '../../login_screen.dart';
+import '../../Role_based_login/login_screen.dart';
+import 'add_items.dart';
+
 final AuthService _authService=AuthService();
 class AdminHomeScreen extends ConsumerStatefulWidget{
   const AdminHomeScreen({super.key});
@@ -117,7 +117,7 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen> {
                     child: StreamBuilder(
                         stream: items
                             .where("uploadedBy", isEqualTo: uid)
-                            .where('category', isEqualTo: selectedCategory)
+                            .where('Auth', isEqualTo: selectedCategory)
                             .snapshots(),
                         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
                           if(snapshot.hasError){
@@ -174,7 +174,7 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen> {
                                             ),
                                             const SizedBox(width: 5),
                                             Text(
-                                              '${items ['category'] ?? 'N/A'}',
+                                              '${items ['Auth'] ?? 'N/A'}',
                                             ),
                                           ],
                                         ),

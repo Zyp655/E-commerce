@@ -1,15 +1,14 @@
 import 'dart:io';
-import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
-import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_commerce/View/Role_based_login/Admin/Model/add_items_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../Models/add_items_model.dart';
 
 final addItemProvider= StateNotifierProvider<AddItemNotifer,AddItemState>((ref){
   return AddItemNotifer ();
@@ -98,7 +97,7 @@ class AddItemNotifer extends StateNotifier <AddItemState> {
         'price':int.tryParse(price),
         'image':imageUrl,
         'uploadedBy':uid,
-        'category':state.selectedCategory,
+        'Auth':state.selectedCategory,
         'size':state.sizes,
         'color':state.colors,
         'isDiscounted':state.isDiscounted,

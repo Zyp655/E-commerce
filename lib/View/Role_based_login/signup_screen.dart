@@ -66,7 +66,7 @@ class _SignupScreenState extends State<SignupScreen>{
         child:SingleChildScrollView(
         child: Column(
           children: [
-            Image.asset("assets/picture/signup.png"),
+            Image.asset("assets/Auth/signup.png"),
             const SizedBox(height: 30,),
             TextField(
               controller: emailController,

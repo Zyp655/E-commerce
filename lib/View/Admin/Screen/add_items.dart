@@ -1,11 +1,9 @@
 import 'dart:io';
-import 'dart:ui';
-
-import 'package:e_commerce/View/Role_based_login/Admin/Controller/add_items_controller.dart';
-import 'package:e_commerce/Widgets/my_button.dart';
-import 'package:e_commerce/Widgets/show_scackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../Widgets/my_button.dart';
+import '../../../Widgets/show_scackbar.dart';
+import '../Controller/add_items_controller.dart';
 
 class AddItems extends ConsumerWidget {
   final TextEditingController _nameController=TextEditingController();

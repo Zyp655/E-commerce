@@ -1,8 +1,9 @@
 import 'package:e_commerce/Services/auth_service.dart';
-import 'package:e_commerce/View/Role_based_login/User/app_main_screen.dart';
 import 'package:e_commerce/View/Role_based_login/signup_screen.dart';
 import 'package:flutter/material.dart';
-import 'Admin/Screen/admin_home_screen.dart';
+import '../Admin/Screen/admin_home_screen.dart';
+import '../User/app_main_screen.dart';
+
 
 class LoginScreen extends StatefulWidget{
   const LoginScreen({super.key});
@@ -62,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen>{
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  Image.asset("assets/picture/login.png"),
+                  Image.asset("assets/Auth/login.png"),
                   const SizedBox(height: 20,),
                   TextField(
                     controller: emailController,
