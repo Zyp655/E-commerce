@@ -1,8 +1,10 @@
 import 'package:e_commerce/Models/category_model.dart';
 import 'package:e_commerce/Utils/colors.dart';
 import 'package:e_commerce/View/Widgets/banner.dart';
+import 'package:e_commerce/View/Widgets/curated_items.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
+import 'package:e_commerce/Models/model.dart';
 
 class AppHomeScreen extends StatefulWidget {
   const AppHomeScreen({super.key});
@@ -14,6 +16,7 @@ class AppHomeScreen extends StatefulWidget {
 class _AppHomeScreenState extends State<AppHomeScreen> {
   @override
   Widget build(BuildContext context) {
+    Size size=MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -112,7 +115,7 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
                 )),
               ),
             ),
-            //2h10
+
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20,vertical: 18),
               child: Row(
@@ -138,7 +141,26 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Row(children: List.generate(, generator),),
+              child: Row(
+                children: List.generate(
+                    fashionEcommerceApp.length,
+                    (index){
+                      final  eCommerceItems = fashionEcommerceApp[index];
+                          return Padding(
+                              padding: index ==0
+                                  ? const EdgeInsets.symmetric(horizontal: 20)
+                                  : const EdgeInsets.only(right: 20),
+                            child: InkWell(
+                              onTap: (){},
+                              child: CuratedItems(
+                                  eCommerceItems: eCommerceItems,
+                                  size: size
+                              ),
+                            ),
+
+                          );
+
+              }),),
             )
           ],
         ),

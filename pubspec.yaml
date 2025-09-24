@@ -76,7 +76,7 @@ flutter:
   assets:
     - assets/
     - assets/Auth/
-    - assets/category
+    - assets/category/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
