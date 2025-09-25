@@ -444,3 +444,5 @@ List<AppModel> fashionEcommerceApp=[
     ),
   ];
 
+const myDescription1='buy and know';
+const myDescription2='same';

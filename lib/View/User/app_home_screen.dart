@@ -1,5 +1,6 @@
 import 'package:e_commerce/Models/category_model.dart';
 import 'package:e_commerce/Utils/colors.dart';
+import 'package:e_commerce/View/User/items_detail_screen.dart';
 import 'package:e_commerce/View/Widgets/banner.dart';
 import 'package:e_commerce/View/Widgets/curated_items.dart';
 import 'package:flutter/material.dart';
@@ -151,7 +152,16 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
                                   ? const EdgeInsets.symmetric(horizontal: 20)
                                   : const EdgeInsets.only(right: 20),
                             child: InkWell(
-                              onTap: (){},
+                              onTap: (){
+                                Navigator.push
+                                  (context,
+                                    MaterialPageRoute(
+                                        builder: (_)=>ItemsDetailScreen(
+                                          eCommerceApp: eCommerceItems,
+                                        )
+                                    ),
+                                );
+                              },
                               child: CuratedItems(
                                   eCommerceItems: eCommerceItems,
                                   size: size

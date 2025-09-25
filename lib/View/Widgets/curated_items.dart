@@ -39,7 +39,6 @@ class CuratedItems extends StatelessWidget {
         ),
         const SizedBox(height: 7,),
         Row(
-
           children: [
             const Text(
               'H&M',
@@ -67,9 +66,7 @@ class CuratedItems extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(
-          width: size.width*0.5 ,
-          child: Text(
+          Text(
             eCommerceItems.name,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -79,7 +76,6 @@ class CuratedItems extends StatelessWidget {
               height: 1.5,
             ),
           ),
-        ),
         Row(
           children: [
             Text(
