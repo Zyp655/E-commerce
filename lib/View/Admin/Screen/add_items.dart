@@ -162,6 +162,7 @@ class AddItems extends ConsumerWidget {
                 ),
               const SizedBox(height: 20,),
               const SizedBox(height: 10,),
+
               state.isLoading ?Center(
                 child: CircularProgressIndicator(),
               ) :Center(

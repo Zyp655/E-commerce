@@ -1,5 +1,6 @@
 import 'package:e_commerce/Models/category_model.dart';
 import 'package:e_commerce/Utils/colors.dart';
+import 'package:e_commerce/View/User/category_items.dart';
 import 'package:e_commerce/View/User/items_detail_screen.dart';
 import 'package:e_commerce/View/Widgets/banner.dart';
 import 'package:e_commerce/View/Widgets/curated_items.dart';
@@ -97,6 +98,22 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
                 children: List.generate(
                   category.length,
                     (index)=>InkWell(
+                      onTap:(){
+                        final filterItems = fashionEcommerceApp
+                            .where((item) =>
+                              item.category.toLowerCase() ==
+                              category[index].name.toLowerCase())
+                            .toList();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => CategoryItems(
+                                      category: category[index].name,
+                                      categoryItems : filterItems ,
+                                    ),
+                                ),
+                            );
+                      } ,
                       child:Column(
                         children: [
                           Container(
@@ -113,7 +130,8 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
                           Text(category[index].name),
                         ],
                       ) ,
-                )),
+                ),
+                ),
               ),
             ),
 
@@ -167,10 +185,10 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
                                   size: size
                               ),
                             ),
-
                           );
 
-              }),),
+              } ),
+              ),
             )
           ],
         ),

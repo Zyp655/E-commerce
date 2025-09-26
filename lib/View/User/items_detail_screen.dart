@@ -73,11 +73,14 @@ class _ItemsDetailScreen extends State<ItemsDetailScreen> {
                 itemBuilder: (context,index){
                   return Column(
                     children: [
-                    Image.asset(
-                      width: size.width *0.85,
-                      widget.eCommerceApp.image,
-                      height: size.height *0.4,
-                      fit: BoxFit.cover,
+                    Hero(
+                      tag:widget.eCommerceApp.image,
+                      child: Image.asset(
+                        width: size.width *0.85,
+                        widget.eCommerceApp.image,
+                        height: size.height *0.4,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                       SizedBox(height: 20,),
                       Row(
@@ -255,7 +258,10 @@ class _ItemsDetailScreen extends State<ItemsDetailScreen> {
                                     });
                                   },
                                   child: Container(
-                                    margin:const EdgeInsets.only(top:10,right:10),
+                                    margin:const EdgeInsets.only(
+                                        top:10,
+                                        right:10
+                                    ),
                                     height: 35,
                                     width: 35,
                                     decoration: BoxDecoration(
