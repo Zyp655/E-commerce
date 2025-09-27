@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'View/Admin/Screen/admin_home_screen.dart';
 import 'View/Role_based_login/login_screen.dart';
-import 'View/User/app_main_screen.dart';
+import 'View/User/user_app_main_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -63,7 +63,9 @@ class _AuthStateHandlerState extends State<AuthStateHandler> {
             .get();
         if(!mounted)return;
         if(userDoc.exists){
-          _userRole=userDoc['role'];
+          setState(() {
+            _userRole=userDoc['role'];
+          });
         }
       }
     });
@@ -84,7 +86,7 @@ class _AuthStateHandlerState extends State<AuthStateHandler> {
     }
     return _userRole == 'Admin'
         ? AdminHomeScreen()
-        : AppMainScreen();
+        : UserAppMainScreen();
   }
 
 }

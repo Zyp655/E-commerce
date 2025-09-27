@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../Utils/colors.dart';
+import '../../Core/Common/Utils/colors.dart';
 class MyBanner extends StatelessWidget {
   const MyBanner({super.key});
 

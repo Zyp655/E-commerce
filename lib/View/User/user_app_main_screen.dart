@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'app_home_screen.dart';
-class AppMainScreen extends StatefulWidget {
-  const AppMainScreen({super.key});
+import 'user_app_home_screen.dart';
+class UserAppMainScreen extends StatefulWidget {
+  const UserAppMainScreen({super.key});
 
   @override
-  State<AppMainScreen> createState() => _AppMainScreenState();
+  State<UserAppMainScreen> createState() => _UserAppMainScreenState();
 }
 
-class _AppMainScreenState extends State<AppMainScreen> {
-  int selectedIndex=0;
-  final List pages=[
-    const AppHomeScreen(),
-    const Scaffold(),
-    const Scaffold(),
-    const Scaffold(),
+class _UserAppMainScreenState extends State<UserAppMainScreen> {
+    int selectedIndex=0;
+    static const List pages=[
+      UserAppHomeScreen(),
+      Scaffold(body: Center(child: Text('Search Page'))),
+      Scaffold(body: Center(child: Text('Notification Page'))),
+      Scaffold(body: Center(child: Text('Profile Page'))),
   ];
   @override
   Widget build(BuildContext context) {
@@ -28,9 +28,8 @@ class _AppMainScreenState extends State<AppMainScreen> {
         currentIndex:selectedIndex ,
         onTap: (value){
           setState(() {
-
+            selectedIndex=value;
           });
-          selectedIndex=value;
         },
         elevation: 0,
         backgroundColor: Colors.white,

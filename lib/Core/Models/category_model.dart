@@ -2,14 +2,7 @@ class Category{
   final String name, image;
   Category({required this.name , required this.image});
 }
-final List<String> filterCategory =[
-  'Filter',
-  'Ratings',
-  'Size',
-  'Color',
-  'Price',
 
-];
 List<Category> category=[
   Category(
       name: 'Women',

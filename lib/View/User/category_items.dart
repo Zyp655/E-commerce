@@ -1,10 +1,11 @@
-import 'package:e_commerce/Models/category_model.dart';
-import 'package:e_commerce/Utils/colors.dart';
-import 'package:e_commerce/View/User/items_detail_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:e_commerce/Models/sub_category.dart';
-import '../../Models/model.dart';
+
+import '../../Core/Common/Utils/colors.dart';
+import '../../Core/Models/model.dart';
+import '../../Core/Models/sub_category.dart';
+import '../Screen/Items_detail_screen/Screen/items_detail_screen.dart';
 
 class CategoryItems extends StatelessWidget {
   final String category;
@@ -198,7 +199,7 @@ class CategoryItems extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                                                    ),
+                                    ),
                                   ),
                                 const SizedBox(height: 7,),
                                 Row(

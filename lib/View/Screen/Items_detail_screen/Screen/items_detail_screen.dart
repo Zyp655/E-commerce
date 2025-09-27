@@ -1,7 +1,9 @@
-import 'package:e_commerce/Models/model.dart';
-import 'package:e_commerce/Utils/colors.dart';
+
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+
+import '../../../../Core/Common/Utils/colors.dart';
+import '../../../../Core/Models/model.dart';
 
 class ItemsDetailScreen extends StatefulWidget {
   final AppModel eCommerceApp;
@@ -65,7 +67,7 @@ class _ItemsDetailScreen extends State<ItemsDetailScreen> {
             child: PageView.builder(
               onPageChanged: (value){
                 setState(() {
-                  currentIndex==value;
+                  currentIndex = value;
                 });
               },
                 itemCount: 3,
@@ -213,7 +215,9 @@ class _ItemsDetailScreen extends State<ItemsDetailScreen> {
                                     backgroundColor: color,
                                     child: InkWell(
                                       onTap: (){
-                                        selectedColorIndex=index;
+                                        setState(() {
+                                          selectedColorIndex=index;
+                                        });
                                       },
                                       child: Icon(
                                         Icons.check,
@@ -281,8 +285,8 @@ class _ItemsDetailScreen extends State<ItemsDetailScreen> {
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: selectedSizeIndex==index
-                                              ? Colors.black
-                                              : Colors.white,
+                                              ? Colors.white
+                                              : Colors.black,
                                         ),
                                       ),
                                     ),

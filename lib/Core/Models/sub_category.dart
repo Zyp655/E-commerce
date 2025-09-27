@@ -2,7 +2,14 @@ class SubCategory{
   final String name, image;
   SubCategory({required this.name,required this.image});
 }
+final List<String> filterCategory =[
+  'Filter',
+  'Ratings',
+  'Size',
+  'Color',
+  'Price',
 
+];
 List<SubCategory> subcategory = [
   SubCategory(
       name: 'Bags',
