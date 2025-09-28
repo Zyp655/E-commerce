@@ -1,4 +1,5 @@
-
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -7,270 +8,308 @@ import '../../Core/Models/model.dart';
 import '../../Core/Models/sub_category.dart';
 import '../Screen/Items_detail_screen/Screen/items_detail_screen.dart';
 
-class CategoryItems extends StatelessWidget {
+class CategoryItems extends StatefulWidget {
+  final String selectedCategory;
   final String category;
-  final List<AppModel> categoryItems;
+
   const CategoryItems({
     super.key,
     required this.category,
-    required this.categoryItems
+    required this.selectedCategory,
   });
 
   @override
+  State<CategoryItems> createState() => _CategoryItemsState();
+}
+
+class _CategoryItemsState extends State<CategoryItems> {
+  TextEditingController searchController = TextEditingController();
+  List<QueryDocumentSnapshot> allItems = [];
+  List<QueryDocumentSnapshot> filteredItems = [];
+
+  @override
+  void initState() {
+    searchController.addListener(_onSearchChanged);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  void _onSearchChanged() {
+    String searchTerm = searchController.text.toLowerCase();
+    setState(() {
+      filteredItems = allItems.where((item) {
+        final data = item.data() as Map<String, dynamic>;
+        final itemName = data['name'].toString().toLowerCase();
+        return itemName.contains(searchTerm);
+      }).toList();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    Size size= MediaQuery.of(context).size;
+    final CollectionReference itemsCollection =
+    FirebaseFirestore.instance.collection('items');
+    Size size = MediaQuery
+        .of(context)
+        .size;
     return Scaffold(
-      backgroundColor:Colors.white ,
+      backgroundColor: Colors.white,
       body: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child:Row(
-                  children: [
-                    InkWell(
-                      onTap: (){
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(Icons.arrow_back_ios_new),
-                    ),
-                    const SizedBox(width: 10,),
-                    Expanded(
-                        child: SizedBox(
-                          height: 45,
-                          child: TextField(
-                            decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.all(5),
-                              hintText: "$category's fashion",
-                              hintStyle: const TextStyle(
-                                  color:Colors.black38
-                              ),
-                              filled: true,
-                              fillColor: fbackgroundColor2,
-                              focusedBorder:
-                                const OutlineInputBorder(borderSide: BorderSide.none),
-                              prefixIcon: const Icon(
-                                Iconsax.search_normal,
-                                color: Colors.black38,
-                              ),
-                              border: const OutlineInputBorder(borderSide:BorderSide.none),
-                            ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(Icons.arrow_back_ios_new),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: SizedBox(
+                      height: 45,
+                      child: TextField(
+                        controller: searchController,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.all(5),
+                          hintText: "${widget.category}'s fashion",
+                          hintStyle: const TextStyle(color: Colors.black38),
+                          filled: true,
+                          fillColor: fbackgroundColor2,
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
+                          prefixIcon: const Icon(
+                            Iconsax.search_normal,
+                            color: Colors.black38,
+                          ),
+                          border: const OutlineInputBorder(
+                            borderSide: BorderSide.none,
                           ),
                         ),
-                    ),
-                  ],
-                ) ,
-              ),
-              const SizedBox(height: 20,),
-              Padding(
-                  padding:EdgeInsets
-                      .symmetric (
-                      horizontal: 20,
-                  ),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: List.generate(
-                        filterCategory.length,
-                            (index)=> Padding(
-                              padding:EdgeInsets.only(right:5 ),
-                              child: Container(
-                                padding: EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.black38),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Text(filterCategory[index]),
-                                    const SizedBox(width: 5,),
-                                    index == 0
-                                      ? const Icon(
-                                          Icons.filter_list,
-                                          size: 15,
-                                      )
-                                      : const Icon(
-                                          Icons.keyboard_arrow_down,
-                                          size: 15,
-                                      ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
-              SizedBox(height: 20,),
-              SingleChildScrollView(
+            ),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: List.generate(
-                    subcategory.length,
-                        (index)=>InkWell(
-                      onTap:(){
-
-                      } ,
-                      child:Column(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Container(
-                              height:50 ,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                color: fbackgroundColor1 ,
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                      image: AssetImage(subcategory[index].image),
-                                ),
-                              ),
+                    filterCategory.length,
+                        (index) =>
+                        Padding(
+                          padding: const EdgeInsets.only(right: 5),
+                          child: Container(
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black38),
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                          ),
-                          const SizedBox(height: 10,),
-                          Text(subcategory[index].name),
-                        ],
-                      ) ,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20,),
-              Expanded(
-                  child: categoryItems.isEmpty
-                      ? Center(
-                        child: Text(
-                          'No items available in this category',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.red,
-                          ),
-                        ),
-                      )
-                      : GridView.builder(
-                        padding:const  EdgeInsets.symmetric(horizontal: 20),
-                         itemCount: categoryItems.length,
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.6,
-                            mainAxisSpacing: 16,
-                            crossAxisSpacing: 16,
-                          ),
-                          itemBuilder: (context, index) {
-                            final item = categoryItems[index];
-                            return GestureDetector(
-                              onTap: (){
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => ItemsDetailScreen(
-                                            eCommerceApp: item,
-                                        ),
-                                    )
-                                );
-                              },
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Hero(
-                                    tag: item.image,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: fbackgroundColor2,
-                                        image: DecorationImage(
-                                          image:AssetImage(item.image),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      height: size.height *0.25,
-                                      width: size.width* 0.25,
-                                      child: const Padding(
-                                        padding: EdgeInsets.all(12),
-                                        child: Align(
-                                          alignment: Alignment.topRight,
-                                        child: CircleAvatar(
-                                          radius: 18,
-                                          backgroundColor: Colors.black26,
-                                          child: Icon(
-                                            Icons.favorite_border,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    ),
-                                  ),
-                                const SizedBox(height: 7,),
-                                Row(
-                                  children: [
-                                    const Text(
-                                      'H&M',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black26,
-                                      ),
-                                    ),
-
-                                    const SizedBox(height: 5,),
-
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                      size: 17,
-                                    ),
-
-                                    Text(item.rating.toString()),
-
-                                    Text(
-                                      '(${item.review})',
-                                      style: TextStyle(
-                                        color: Colors.black26,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  item.name,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16,
-                                    height: 1.5,
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      '\$${item.price.toString()}.00',
-                                      style: const TextStyle(
-                                        color: Colors.pinkAccent,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 18,
-                                        height: 1.5,
-                                      ),
-                                    ),
-                                    const  SizedBox(width: 5,),
-                                    if(item.isCheck== true)
-                                      Text(
-                                        '\$${item.price + 200}.00',
-                                        style: const TextStyle(
-                                          color: Colors.black26,
-                                          decoration: TextDecoration.lineThrough,
-                                          decorationColor: Colors.black26,
-                                        ),
-                                      )
-                                  ],
+                            child: Row(
+                              children: [
+                                Text(filterCategory[index]),
+                                const SizedBox(width: 5),
+                                index == 0
+                                    ? const Icon(Icons.filter_list, size: 15)
+                                    : const Icon(
+                                  Icons.keyboard_arrow_down,
+                                  size: 15,
                                 ),
                               ],
                             ),
-                          );
-                          },
-                      ),
+                          ),
+                        ),
+                  ),
+                ),
               ),
-            ],
-          )
+            ),
+            const SizedBox(height: 20),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: List.generate(
+                  subcategory.length,
+                      (index) =>
+                      InkWell(
+                        onTap: () {},
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16),
+                              child: Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                  color: fbackgroundColor1,
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    image: AssetImage(subcategory[index].image),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(subcategory[index].name),
+                          ],
+                        ),
+                      ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: itemsCollection
+                    .where('category', isEqualTo: widget.selectedCategory)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final items = snapshot.data!.docs;
+                    if (allItems.isEmpty) {
+                      allItems = items;
+                      filteredItems = items;
+                    }
+                    if (filteredItems.isEmpty) {
+                      return const Center(
+                          child: Text(
+                              'No items found'
+                          )
+                      );
+                    }
+
+                  return GridView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    itemCount: filteredItems.length,
+                    gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.6,
+                      mainAxisSpacing: 16,
+                      crossAxisSpacing: 16,
+                    ),
+                    itemBuilder: (context, index) {
+                      final doc = filteredItems[index];
+                      final item = doc.data() as Map<String , dynamic>;
+
+
+                      return GestureDetector(
+                        onTap: () {},
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Hero(
+                              tag: doc.id,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: fbackgroundColor2,
+                                  image: DecorationImage(
+                                    fit:BoxFit.cover,
+                                    image: CachedNetworkImageProvider(
+                                        item['image']
+                                    ),
+                                  ),
+                                  ),
+                                height: size.height * 0.25,
+                                width: size.width * 0.25,
+                                child: const Padding(
+                                  padding: EdgeInsets.all(12),
+                                  child: Align(
+                                    alignment: Alignment.topRight,
+                                    child: CircleAvatar(
+                                      radius: 18,
+                                      backgroundColor: Colors.black26,
+                                      child: Icon(
+                                        Icons.favorite_border,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 7),
+                            Row(
+                              children: [
+                                const Text(
+                                  'H&M',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black26,
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                const Icon(Icons.star,
+                                    color: Colors.amber,
+                                    size: 17),
+                              ],
+                            ),
+                            Text(
+                              item['name'],
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                height: 1.5,
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  '\$${(item['price']*(1-item['discountPercentage']/100)).toStringAsFixed(2)}',
+                                  style: const TextStyle(
+                                    color: Colors.pinkAccent,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                    height: 1.5,
+                                  ),
+                                ),
+                                const SizedBox(width: 5),
+                                if (item['isDiscounted'] == true)
+                                  Text(
+                                    '\$${item['price']}.00',
+                                    style: const TextStyle(
+                                      color: Colors.black26,
+                                      decoration: TextDecoration.lineThrough,
+                                      decorationColor: Colors.black26,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                }
+                  if(snapshot.hasError){
+                    return Center(
+                      child: Text('Error:${snapshot.error}'),
+                    );
+                  }
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

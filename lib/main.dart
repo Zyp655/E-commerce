@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +7,7 @@ import 'View/Admin/Screen/admin_home_screen.dart';
 import 'View/Role_based_login/login_screen.dart';
 import 'View/User/user_app_main_screen.dart';
 import 'firebase_options.dart';
+import 'firestore_uploader.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +15,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const MyApp());
+runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const ProviderScope(
-      child: MaterialApp (
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         home: AuthStateHandler(),
@@ -32,61 +32,60 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-class AuthStateHandler extends  StatefulWidget{
+
+class AuthStateHandler extends StatefulWidget {
   const AuthStateHandler({super.key});
 
   @override
-  State<StatefulWidget> createState() =>_AuthStateHandlerState();
-
+  State<StatefulWidget> createState() => _AuthStateHandlerState();
 }
 
 class _AuthStateHandlerState extends State<AuthStateHandler> {
   User? _currentUser;
   String? _userRole;
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _initializeAuthState();
   }
 
   void _initializeAuthState() async {
-    FirebaseAuth.instance.authStateChanges().listen((user) async{
-      if(!mounted) return;
-      setState((){
-        _currentUser=user;
-        _userRole=null;
+    FirebaseAuth.instance.authStateChanges().listen((user) async {
+      if (!mounted) return;
+      setState(() {
+        _currentUser = user;
+        _userRole = null;
       });
-      if(user!=null){
-        final userDoc =await FirebaseFirestore.instance
+      if (user != null) {
+        final userDoc = await FirebaseFirestore.instance
             .collection('users')
             .doc(user.uid)
             .get();
-        if(!mounted)return;
-        if(userDoc.exists){
+        if (!mounted) return;
+        if (userDoc.exists) {
           setState(() {
-            _userRole=userDoc['role'];
+            _userRole = userDoc['role'];
           });
         }
       }
     });
-
   }
 
   @override
-  Widget build(BuildContext context){
-    if(_currentUser == null){
-      return const  LoginScreen();
+  Widget build(BuildContext context) {
+    if (_currentUser == null) {
+      return const LoginScreen();
     }
-    if(_userRole == null){
-      return Scaffold(
+    if (_userRole == null) {
+      return const Scaffold(
         body: Center(
           child: CircularProgressIndicator(),
         ),
       );
     }
     return _userRole == 'Admin'
-        ? AdminHomeScreen()
-        : UserAppMainScreen();
+        ? const AdminHomeScreen()
+        : const UserAppMainScreen();
   }
-
 }
+
