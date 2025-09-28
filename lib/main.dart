@@ -7,8 +7,6 @@ import 'View/Admin/Screen/admin_home_screen.dart';
 import 'View/Role_based_login/login_screen.dart';
 import 'View/User/user_app_main_screen.dart';
 import 'firebase_options.dart';
-import 'firestore_uploader.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

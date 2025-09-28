@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,7 @@ class CategoryItems extends StatefulWidget {
 }
 
 class _CategoryItemsState extends State<CategoryItems> {
+  Map<String , Map<String,dynamic>> randomValueCache={};
   TextEditingController searchController = TextEditingController();
   List<QueryDocumentSnapshot> allItems = [];
   List<QueryDocumentSnapshot> filteredItems = [];
@@ -204,10 +207,27 @@ class _CategoryItemsState extends State<CategoryItems> {
                     itemBuilder: (context, index) {
                       final doc = filteredItems[index];
                       final item = doc.data() as Map<String , dynamic>;
+                      final itemId= doc.id;
 
-
+                      if(!randomValueCache.containsKey(itemId)){
+                        randomValueCache[itemId]={
+                          'rating' :'${Random().nextInt(2)+4}.${Random().nextInt(5)+4}',
+                          'reviews':Random().nextInt(300)+100,
+                        };
+                      }
+                      final cachedRating = randomValueCache[itemId]!['rating'];
+                      final cachedReviews = randomValueCache[itemId]!['reviews'];
                       return GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_)=> ItemsDetailScreen(
+                                    productItems: doc,
+                                  )
+                              )
+                          );
+                        },
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -255,7 +275,15 @@ class _CategoryItemsState extends State<CategoryItems> {
                                 const SizedBox(height: 5),
                                 const Icon(Icons.star,
                                     color: Colors.amber,
-                                    size: 17),
+                                    size: 17
+                                ),
+                                Text('$cachedRating'),
+                                Text(
+                                  '$cachedReviews',
+                                  style: const TextStyle(
+                                    color: Colors.black38,
+                                  ),
+                                ),
                               ],
                             ),
                             Text(

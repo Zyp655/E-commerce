@@ -1,17 +1,20 @@
+import 'dart:math';
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../Core/Common/Utils/colors.dart';
 import '../../Core/Models/model.dart';
 
 class CuratedItems extends StatelessWidget {
-  final AppModel eCommerceItems;
+  final DocumentSnapshot<Object?> eCommerceItems;
   final Size size;
   final String heroTag;
 
   const CuratedItems({
     super.key,
     required this.eCommerceItems,
-    required this.size,
-    required this.heroTag,
+    required this.size, required this.heroTag,
   });
 
   @override
@@ -22,13 +25,13 @@ class CuratedItems extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Hero(
-            tag: heroTag,
+            tag: eCommerceItems.id,
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 color: fbackgroundColor2,
                 image: DecorationImage(
-                  image: AssetImage(eCommerceItems.image),
+                  image: CachedNetworkImageProvider(eCommerceItems['image']),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -69,13 +72,13 @@ class CuratedItems extends StatelessWidget {
 
               Flexible(
                 child: Text(
-                  ' ${eCommerceItems.rating.toString()}',
+                  ' ${Random().nextInt(2)+3}.${Random().nextInt(5)+4}',
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
               Flexible(
                 child: Text(
-                  '(${eCommerceItems.review})',
+                  '(${Random().nextInt(300)+25})',
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     color: Colors.black26,
@@ -85,7 +88,7 @@ class CuratedItems extends StatelessWidget {
             ],
           ),
           Text(
-            eCommerceItems.name,
+            eCommerceItems['name']?? 'N/A',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
@@ -97,7 +100,8 @@ class CuratedItems extends StatelessWidget {
           Row(
             children: [
               Text(
-                '\$${eCommerceItems.price.toString()}.00',
+              '\$${(eCommerceItems['price']*(1-eCommerceItems['discountPercentage']/100))
+                .toStringAsFixed(2)}',
                 style: const TextStyle(
                   color: Colors.pinkAccent,
                   fontWeight: FontWeight.w600,
@@ -106,10 +110,10 @@ class CuratedItems extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 5),
-              if (eCommerceItems.isCheck == true)
+              if (eCommerceItems['isDiscounted'] == true)
                 Flexible(
                   child: Text(
-                    '\$${eCommerceItems.price + 200}.00',
+                    '\$${eCommerceItems['price']}.00',
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: Colors.black26,

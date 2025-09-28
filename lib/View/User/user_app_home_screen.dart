@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/View/User/category_items.dart';
 import 'package:e_commerce/View/Widgets/banner.dart';
 import 'package:e_commerce/View/Widgets/curated_items.dart';
@@ -17,6 +18,11 @@ class UserAppHomeScreen extends StatefulWidget {
 }
 
 class _UserAppHomeScreenState extends State<UserAppHomeScreen> {
+  final CollectionReference categoriesItems=
+      FirebaseFirestore.instance.collection('Category');
+  final CollectionReference items=
+      FirebaseFirestore.instance.collection('items');
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -93,50 +99,60 @@ class _UserAppHomeScreenState extends State<UserAppHomeScreen> {
                 ],
               ),
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(
-                  category.length,
-                      (index) => InkWell(
-                    onTap: () {
-                      final filterItems = fashionEcommerceApp
-                          .where((item) =>
-                      item.category.toLowerCase() ==
-                          category[index].name.toLowerCase())
-                          .toList();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => CategoryItems(
-                            category: category[index].name,
-                            categoryItems: filterItems,
+        StreamBuilder(
+          stream: categoriesItems.snapshots(),
+          builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+            if (streamSnapshot.hasData) {
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(
+                    streamSnapshot.data!.docs.length,
+                        (index) =>
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    CategoryItems(
+                                      category: streamSnapshot
+                                          .data!
+                                          .docs[index]['name'],
+                                      selectedCategory: streamSnapshot
+                                          .data!
+                                          .docs[index]['name'],
+                                    ),
+                              ),
+                            );
+                          },
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16),
+                                child: CircleAvatar(
+                                  radius: 30,
+                                  backgroundColor: fbackgroundColor1,
+                                  backgroundImage: AssetImage(
+                                    category[index].image,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(category[index].name),
+                            ],
                           ),
                         ),
-                      );
-                    },
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: CircleAvatar(
-                            radius: 30,
-                            backgroundColor: fbackgroundColor1,
-                            backgroundImage: AssetImage(
-                              category[index].image,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(category[index].name),
-                      ],
-                    ),
                   ),
                 ),
-              ),
-            ),
+              );
+            }
+            return const Center(child: CircularProgressIndicator(),);
+          }
+        ),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
               child: Row(
@@ -161,37 +177,45 @@ class _UserAppHomeScreenState extends State<UserAppHomeScreen> {
                 ],
               ),
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(fashionEcommerceApp.length, (index) {
-                  final eCommerceItems = fashionEcommerceApp[index];
-                  final uniqueHeroTag = eCommerceItems.id;
+            StreamBuilder(
+              stream: items.snapshots(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if(snapshot.hasData){
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: List.generate(snapshot.data!.docs.length, (index) {
+                        final eCommerceItems = snapshot.data!.docs[index];
+                        final uniqueHeroTag = eCommerceItems.id;
 
-                  return Padding(
-                    padding: index == 0
-                        ? const EdgeInsets.symmetric(horizontal: 20)
-                        : const EdgeInsets.only(right: 20),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => ItemsDetailScreen(
-                              eCommerceApp: eCommerceItems,
+                        return Padding(
+                          padding: index == 0
+                              ? const EdgeInsets.symmetric(horizontal: 20)
+                              : const EdgeInsets.only(right: 20),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => ItemsDetailScreen(
+                                          productItems: eCommerceItems,
+                                      )
+                                  )
+                              );
+                            },
+                            child: CuratedItems(
+                              eCommerceItems: eCommerceItems,
+                              size: size,
+                              heroTag: uniqueHeroTag,
                             ),
                           ),
                         );
-                      },
-                      child: CuratedItems(
-                        eCommerceItems: eCommerceItems,
-                        size: size,
-                        heroTag: uniqueHeroTag,
-                      ),
+                      }),
                     ),
                   );
-                }),
-              ),
+                }
+                return const Center(child:  CircularProgressIndicator(),);
+              },
             )
           ],
         ),
