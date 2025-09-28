@@ -1,13 +1,16 @@
 
+import 'dart:math';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce/View/Screen/Items_detail_screen/Widgets/size_and_color.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-
 import '../../../../Core/Common/Utils/colors.dart';
 import '../../../../Core/Models/model.dart';
 
 class ItemsDetailScreen extends StatefulWidget {
-  final AppModel eCommerceApp;
-  const ItemsDetailScreen({super.key, required this.eCommerceApp});
+  final DocumentSnapshot<Object?> productItems;
+  const ItemsDetailScreen({super.key, required this.productItems});
   
   @override
   State<ItemsDetailScreen> createState()=>_ItemsDetailScreen();
@@ -20,6 +23,11 @@ class _ItemsDetailScreen extends State<ItemsDetailScreen> {
   @override
   Widget build(BuildContext context) {
     Size size=MediaQuery.of(context).size;
+    final finalPrice = num.parse(
+        (widget.productItems['price'] *
+            (1 - widget.productItems['discountPercentage']/100))
+            .toStringAsFixed(2),
+    );
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -76,12 +84,12 @@ class _ItemsDetailScreen extends State<ItemsDetailScreen> {
                   return Column(
                     children: [
                     Hero(
-                      tag:widget.eCommerceApp.image,
-                      child: Image.asset(
+                      tag:widget.productItems.id,
+                      child: CachedNetworkImage(
                         width: size.width *0.85,
-                        widget.eCommerceApp.image,
                         height: size.height *0.4,
                         fit: BoxFit.cover,
+                        imageUrl:widget.productItems['image'] ,
                       ),
                     ),
                       SizedBox(height: 20,),
@@ -130,18 +138,23 @@ class _ItemsDetailScreen extends State<ItemsDetailScreen> {
                       color: Colors.amber,
                       size: 17,
                     ),
-                    Text(widget.eCommerceApp.rating.toString()),
-                    Text(
-                      '(${widget.eCommerceApp.review})',
-                      style: TextStyle(
-                        color: Colors.black26,
+                    Flexible(
+                      child: Text(
+                        ' ${Random().nextInt(2)+3}.${Random().nextInt(5)+4}',
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Flexible(
+                      child: Text(
+                        '(${Random().nextInt(300)+25})',
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),const Spacer(),
                     Icon(Icons.favorite_border),
                   ],
                 ),
                 Text(
-                    widget.eCommerceApp.name,
+                    widget.productItems['name'],
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -153,7 +166,7 @@ class _ItemsDetailScreen extends State<ItemsDetailScreen> {
                 Row(
                   children: [
                     Text(
-                      '\$${widget.eCommerceApp.price.toString()}.00',
+                      '\$$finalPrice',
                       style: const TextStyle(
                         color: Colors.pinkAccent,
                         fontWeight: FontWeight.w600,
@@ -162,9 +175,9 @@ class _ItemsDetailScreen extends State<ItemsDetailScreen> {
                       ),
                     ),
                     const  SizedBox(width: 5,),
-                    if(widget.eCommerceApp.isCheck== true)
+                    if(widget.productItems['isDiscounted']== true)
                       Text(
-                        '\$${widget.eCommerceApp.price + 200}.00',
+                        '\$${widget.productItems['price']}.00',
                         style: const TextStyle(
                           color: Colors.black26,
                           decoration: TextDecoration.lineThrough,
@@ -175,7 +188,7 @@ class _ItemsDetailScreen extends State<ItemsDetailScreen> {
                 ),
                 SizedBox(height: 15,),
                 Text(
-                  '$myDescription1 ${widget.eCommerceApp.name}',
+                  '$myDescription1 ${widget.productItems['name']}',
                   style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
@@ -184,123 +197,22 @@ class _ItemsDetailScreen extends State<ItemsDetailScreen> {
                   ),
                 ),
                 const SizedBox(height: 20,),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: size.width / 2.1 ,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Color',
-                            style: TextStyle(
-                              color: Colors.black45,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          SingleChildScrollView(
-                            scrollDirection:Axis.horizontal ,
-                            child: Row(
-                              children: widget.eCommerceApp.fcolor
-                                  .asMap()
-                                  .entries
-                                  .map((entry) {
-                                    final int index=entry.key;
-                                    final color=entry.value;
-                                return Padding(
-                                  padding: EdgeInsets.only(top:10,right: 10),
-                                  child: CircleAvatar(
-                                    radius: 18,
-                                    backgroundColor: color,
-                                    child: InkWell(
-                                      onTap: (){
-                                        setState(() {
-                                          selectedColorIndex=index;
-                                        });
-                                      },
-                                      child: Icon(
-                                        Icons.check,
-                                        color: selectedColorIndex == index
-                                            ?Colors.white
-                                            :Colors.transparent,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: size.width / 2.1 ,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Size',
-                            style: TextStyle(
-                              color: Colors.black45,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          SingleChildScrollView(
-                            scrollDirection:Axis.horizontal ,
-                            child: Row(
-                              children: widget.eCommerceApp.size
-                                  .asMap()
-                                  .entries
-                                  .map((entry) {
-                                final int index=entry.key;
-                                final String size=entry.value;
-                                return GestureDetector(
-                                  onTap: (){
-                                    setState(() {
-                                      selectedSizeIndex = index;
-                                    });
-                                  },
-                                  child: Container(
-                                    margin:const EdgeInsets.only(
-                                        top:10,
-                                        right:10
-                                    ),
-                                    height: 35,
-                                    width: 35,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: selectedSizeIndex == index
-                                        ? Colors.black
-                                        : Colors.white,
-                                      border:Border.all(
-                                        color: selectedSizeIndex==index
-                                            ? Colors.black
-                                            : Colors.black12,
-                                      ),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        size,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: selectedSizeIndex==index
-                                              ? Colors.white
-                                              : Colors.black,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                )
-
+                SizeAndColor(
+                    colors:  widget.productItems['fcolor'],
+                    sizes: widget.productItems['size'],
+                    onColorSelected: (index){
+                      selectedColorIndex = index;
+                    },
+                    onSizeSelected: (index){
+                      setState(() {
+                        setState(() {
+                          selectedSizeIndex = index;
+                        });
+                      });
+                    },
+                    selectedColorIndex: selectedColorIndex,
+                    selectedSizeIndex: selectedSizeIndex
+                ),
               ],
             ),
           )
