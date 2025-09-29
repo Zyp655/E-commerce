@@ -1,6 +1,4 @@
-
 import 'dart:math';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -85,11 +83,11 @@ class _ItemsDetailScreen extends State<ItemsDetailScreen> {
                     children: [
                     Hero(
                       tag:widget.productItems.id,
-                      child: CachedNetworkImage(
+                      child: Image.asset(
                         width: size.width *0.85,
                         height: size.height *0.4,
                         fit: BoxFit.cover,
-                        imageUrl:widget.productItems['image'] ,
+                        widget.productItems['image'] ,
                       ),
                     ),
                       SizedBox(height: 20,),
@@ -201,7 +199,10 @@ class _ItemsDetailScreen extends State<ItemsDetailScreen> {
                     colors:  widget.productItems['fcolor'],
                     sizes: widget.productItems['size'],
                     onColorSelected: (index){
-                      selectedColorIndex = index;
+                      setState(() {
+                        selectedColorIndex = index;
+                      });
+
                     },
                     onSizeSelected: (index){
                       setState(() {

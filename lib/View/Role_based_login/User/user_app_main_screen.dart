@@ -1,6 +1,6 @@
-import 'package:e_commerce/View/Role_based_login/User/User%20Profile/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'Screen/User Profile/user_profile.dart';
 import 'user_app_home_screen.dart';
 class UserAppMainScreen extends StatefulWidget {
   const UserAppMainScreen({super.key});

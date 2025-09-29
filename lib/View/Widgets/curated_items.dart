@@ -1,12 +1,10 @@
 import 'dart:math';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce/Core/Provider/favorite_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../Core/Common/Utils/colors.dart';
-import '../../Core/Models/model.dart';
-
-class CuratedItems extends StatelessWidget {
+class CuratedItems extends ConsumerWidget {
   final DocumentSnapshot<Object?> eCommerceItems;
   final Size size;
   final String heroTag;
@@ -18,7 +16,8 @@ class CuratedItems extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
+    final provider =ref.watch(favoriteProvider);
     return SizedBox(
       width: size.width * 0.25,
       child: Column(
@@ -31,22 +30,34 @@ class CuratedItems extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 color: fbackgroundColor2,
                 image: DecorationImage(
-                  image: CachedNetworkImageProvider(eCommerceItems['image']),
+                  image: AssetImage(eCommerceItems['image']),
                   fit: BoxFit.cover,
                 ),
               ),
               height: size.height * 0.25,
 
-              child: const Padding(
-                padding: EdgeInsets.all(12),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
                 child: Align(
                   alignment: Alignment.topRight,
                   child: CircleAvatar(
                     radius: 18,
-                    backgroundColor: Colors.black26,
-                    child: Icon(
-                      Icons.favorite_border,
-                      color: Colors.white,
+                    backgroundColor: provider.isExit(eCommerceItems)
+                        ? Colors.white
+                        : Colors.black26,
+                    child: GestureDetector(
+                      onTap: (){
+                        ref.read(favoriteProvider)
+                            .toggleFavorite(eCommerceItems);
+                      },
+                      child: Icon(
+                        provider.isExit(eCommerceItems)
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color: provider.isExit(eCommerceItems)
+                          ? Colors.red
+                          : Colors.white,
+                      ),
                     ),
                   ),
                 ),
