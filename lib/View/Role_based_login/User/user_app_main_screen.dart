@@ -1,3 +1,4 @@
+import 'package:e_commerce/View/Role_based_login/User/User%20Profile/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'user_app_home_screen.dart';
@@ -10,11 +11,10 @@ class UserAppMainScreen extends StatefulWidget {
 
 class _UserAppMainScreenState extends State<UserAppMainScreen> {
     int selectedIndex=0;
-    static const List pages=[
-      UserAppHomeScreen(),
-      Scaffold(body: Center(child: Text('Search Page'))),
-      Scaffold(body: Center(child: Text('Notification Page'))),
-      Scaffold(body: Center(child: Text('Profile Page'))),
+    final List pages=[
+      const UserAppHomeScreen(),
+      const Scaffold(),
+      const UserProfile(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -38,10 +38,10 @@ class _UserAppMainScreenState extends State<UserAppMainScreen> {
             icon: Icon(Iconsax.home),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Iconsax.search_normal),
-            label: 'Search',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Iconsax.search_normal),
+          //   label: 'Search',
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Iconsax.notification),
             label: 'Notification',

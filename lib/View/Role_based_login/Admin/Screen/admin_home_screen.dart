@@ -4,8 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../Services/auth_service.dart';
 import 'package:flutter/material.dart';
-
-import '../../Role_based_login/login_screen.dart';
+import '../../login_screen.dart';
 import 'add_items.dart';
 
 final AuthService _authService=AuthService();

@@ -1,14 +1,11 @@
 import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-
-import '../../Core/Common/Utils/colors.dart';
-import '../../Core/Models/model.dart';
-import '../../Core/Models/sub_category.dart';
-import '../Screen/Items_detail_screen/Screen/items_detail_screen.dart';
+import '../../../Core/Common/Utils/colors.dart';
+import '../../../Core/Models/sub_category.dart';
+import 'Screen/Items_detail_screen/Screen/items_detail_screen.dart';
 
 class CategoryItems extends StatefulWidget {
   final String selectedCategory;

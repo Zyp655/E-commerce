@@ -1,14 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_commerce/View/User/category_items.dart';
 import 'package:e_commerce/View/Widgets/banner.dart';
 import 'package:e_commerce/View/Widgets/curated_items.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
-
-import '../../Core/Common/Utils/colors.dart';
-import '../../Core/Models/category_model.dart';
-import '../../Core/Models/model.dart';
-import '../Screen/Items_detail_screen/Screen/items_detail_screen.dart';
+import '../../../Core/Common/Utils/colors.dart';
+import '../../../Core/Models/category_model.dart';
+import 'Screen/Items_detail_screen/Screen/items_detail_screen.dart';
+import 'category_items.dart';
 
 class UserAppHomeScreen extends StatefulWidget {
   const UserAppHomeScreen({super.key});

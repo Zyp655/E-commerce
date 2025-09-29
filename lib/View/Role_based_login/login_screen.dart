@@ -1,8 +1,8 @@
 import 'package:e_commerce/Services/auth_service.dart';
 import 'package:e_commerce/View/Role_based_login/signup_screen.dart';
 import 'package:flutter/material.dart';
-import '../Admin/Screen/admin_home_screen.dart';
-import '../User/user_app_main_screen.dart';
+import 'Admin/Screen/admin_home_screen.dart';
+import 'User/user_app_main_screen.dart';
 
 class LoginScreen extends StatefulWidget{
   const LoginScreen({super.key});

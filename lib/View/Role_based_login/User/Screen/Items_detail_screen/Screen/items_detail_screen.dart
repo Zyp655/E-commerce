@@ -2,11 +2,11 @@
 import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_commerce/View/Screen/Items_detail_screen/Widgets/size_and_color.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import '../../../../Core/Common/Utils/colors.dart';
-import '../../../../Core/Models/model.dart';
+import '../../../../../../Core/Common/Utils/colors.dart';
+import '../../../../../../Core/Models/model.dart';
+import '../Widgets/size_and_color.dart';
 
 class ItemsDetailScreen extends StatefulWidget {
   final DocumentSnapshot<Object?> productItems;
