@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/View/Widgets/banner.dart';
 import 'package:e_commerce/View/Widgets/curated_items.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax_flutter/iconsax_flutter.dart';
 import '../../../Core/Common/Utils/colors.dart';
+import '../../../Core/Common/cart_oder_count.dart';
 import '../../../Core/Models/category_model.dart';
 import 'Screen/Items_detail_screen/Screen/items_detail_screen.dart';
 import 'category_items.dart';
@@ -39,35 +39,7 @@ class _UserAppHomeScreenState extends State<UserAppHomeScreen> {
                     'assets/Auth/login.png',
                     height: 40,
                   ),
-                  Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      const Icon(
-                        Iconsax.shopping_bag,
-                        size: 28,
-                      ),
-                      Positioned(
-                        right: -3,
-                        top: -5,
-                        child: Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: const BoxDecoration(
-                            color: Colors.red,
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Center(
-                            child: Text(
-                              '3',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
+                  CartOderCount(),
                 ],
               ),
             ),

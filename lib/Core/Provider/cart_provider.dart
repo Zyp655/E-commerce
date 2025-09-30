@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_commerce/View/Role_based_login/User/Screen/User%20Activity/Model/cart_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/legacy.dart';
+
+import '../Models/cart_model.dart';
 
 final cartService = ChangeNotifierProvider<CartProvider>(
       (ref) => CartProvider(),
@@ -117,6 +118,14 @@ class CartProvider extends ChangeNotifier {
       }).toList();
     }catch(e){
       print(e.toString());
+    }
+  }
+  Future<void> deleteCartItem(String productId) async{
+    int index =_carts.indexWhere((element)=> element.productId == productId);
+    if(index != -1){
+      _carts.removeAt(index);
+      await _firestore.collection('userCart').doc(productId).delete();
+      notifyListeners();
     }
   }
 

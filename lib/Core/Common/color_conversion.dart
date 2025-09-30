@@ -28,5 +28,6 @@ Color getColorFromName(String colorName) {
       return Colors.brown;
     default:
       return Colors.blue[100]!; // Default color if not recognized
+
   }
 }
