@@ -1,3 +1,4 @@
+import 'package:e_commerce/View/Role_based_login/User/Screen/User%20Activity/favorite_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'Screen/User Profile/user_profile.dart';
@@ -13,7 +14,7 @@ class _UserAppMainScreenState extends State<UserAppMainScreen> {
     int selectedIndex=0;
     final List pages=[
       const UserAppHomeScreen(),
-      const Scaffold(),
+      const FavoriteScreen(),
       const UserProfile(),
   ];
   @override
@@ -43,8 +44,8 @@ class _UserAppMainScreenState extends State<UserAppMainScreen> {
           //   label: 'Search',
           // ),
           BottomNavigationBarItem(
-            icon: Icon(Iconsax.notification),
-            label: 'Notification',
+            icon: Icon(Iconsax.heart),
+            label: 'Favorite',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),

@@ -1,26 +1,29 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce/Core/Provider/favorite_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../../../../Core/Common/Utils/colors.dart';
 import '../../../../../../Core/Models/model.dart';
 import '../Widgets/size_and_color.dart';
 
-class ItemsDetailScreen extends StatefulWidget {
+class ItemsDetailScreen extends ConsumerStatefulWidget {
   final DocumentSnapshot<Object?> productItems;
   const ItemsDetailScreen({super.key, required this.productItems});
   
   @override
-  State<ItemsDetailScreen> createState()=>_ItemsDetailScreen();
+  ConsumerState<ItemsDetailScreen> createState()=>_ItemsDetailScreen();
 }
 
-class _ItemsDetailScreen extends State<ItemsDetailScreen> {
+class _ItemsDetailScreen extends ConsumerState<ItemsDetailScreen> {
   int currentIndex =0;
   int selectedColorIndex=1;
   int selectedSizeIndex=1;
   @override
   Widget build(BuildContext context) {
     Size size=MediaQuery.of(context).size;
+    final provider = ref.watch(favoriteProvider);
     final finalPrice = num.parse(
         (widget.productItems['price'] *
             (1 - widget.productItems['discountPercentage']/100))
@@ -148,7 +151,19 @@ class _ItemsDetailScreen extends State<ItemsDetailScreen> {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),const Spacer(),
-                    Icon(Icons.favorite_border),
+                      GestureDetector(
+                        onTap: (){
+                          provider.toggleFavorite(widget.productItems);
+                        },
+                          child: Icon(
+                            provider.isExit(widget.productItems)
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                            color: provider.isExit(widget.productItems)
+                              ? Colors.red
+                              : Colors.black,
+                          ),
+                      ),
                   ],
                 ),
                 Text(

@@ -157,7 +157,7 @@ class _UserAppHomeScreenState extends State<UserAppHomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Featured Items',
+                    'Curated Items',
                     style: TextStyle(
                       fontSize: 16,
                       letterSpacing: 0,

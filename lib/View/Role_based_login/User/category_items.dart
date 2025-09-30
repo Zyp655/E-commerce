@@ -1,13 +1,15 @@
 import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce/Core/Provider/favorite_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../Core/Common/Utils/colors.dart';
 import '../../../Core/Models/sub_category.dart';
 import 'Screen/Items_detail_screen/Screen/items_detail_screen.dart';
 
-class CategoryItems extends StatefulWidget {
+class CategoryItems extends ConsumerStatefulWidget {
   final String selectedCategory;
   final String category;
 
@@ -18,10 +20,10 @@ class CategoryItems extends StatefulWidget {
   });
 
   @override
-  State<CategoryItems> createState() => _CategoryItemsState();
+  ConsumerState<CategoryItems> createState() => _CategoryItemsState();
 }
 
-class _CategoryItemsState extends State<CategoryItems> {
+class _CategoryItemsState extends ConsumerState<CategoryItems> {
   Map<String , Map<String,dynamic>> randomValueCache={};
   TextEditingController searchController = TextEditingController();
   List<QueryDocumentSnapshot> allItems = [];
@@ -57,6 +59,7 @@ class _CategoryItemsState extends State<CategoryItems> {
     Size size = MediaQuery
         .of(context)
         .size;
+    final provider = ref.watch(favoriteProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -243,16 +246,29 @@ class _CategoryItemsState extends State<CategoryItems> {
                                   ),
                                 height: size.height * 0.25,
                                 width: size.width * 0.25,
-                                child: const Padding(
-                                  padding: EdgeInsets.all(12),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12),
                                   child: Align(
                                     alignment: Alignment.topRight,
                                     child: CircleAvatar(
                                       radius: 18,
-                                      backgroundColor: Colors.black26,
-                                      child: Icon(
-                                        Icons.favorite_border,
-                                        color: Colors.white,
+                                      backgroundColor: provider
+                                          .isExit(items[index])
+                                          ? Colors.white
+                                          : Colors.black26,
+                                      child: GestureDetector(
+                                        onTap: (){
+                                          ref.read(favoriteProvider)
+                                              .toggleFavorite(items[index]);
+                                        },
+                                        child: Icon(
+                                          provider.isExit(items[index])
+                                              ? Icons.favorite
+                                              : Icons.favorite_border,
+                                          color: provider.isExit(items[index])
+                                              ? Colors.red
+                                              : Colors.white,
+                                        ),
                                       ),
                                     ),
                                   ),
