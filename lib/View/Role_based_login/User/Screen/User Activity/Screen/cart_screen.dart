@@ -36,7 +36,17 @@ class _CartScreenState extends ConsumerState<CartScreen> {
         children: [
           Expanded(
             child: carts.isEmpty
-                ? ListView.builder(
+                ? Center(
+                    child: Text(
+                      ' Your cart is empty',
+                      style: TextStyle(
+                        color: Colors.grey.shade600,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  )
+                : ListView.builder(
                     itemCount: carts.length,
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
@@ -51,16 +61,6 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                         ),
                       );
                     },
-                  )
-                : Center(
-                    child: Text(
-                      ' Your cart is empty',
-                      style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ),
           ),
           if (carts.isNotEmpty) _buildSummarySection(context, cp),
@@ -150,6 +150,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   }
 
   void _showOrderConfirmationDialog(BuildContext context, CartProvider cp) {
+    String? addressError;
     showDialog(
       context: context,
       builder: (context) {
@@ -157,35 +158,59 @@ class _CartScreenState extends ConsumerState<CartScreen> {
           builder: (context, setDialogState) {
             return AlertDialog(
               title: Text('Confirm your Order'),
-              content: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  ListBody(
-                    children: cp.carts.map((cartItem) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${cartItem.productData['name']} x ${cartItem.quantity}',
-                          ),
-                        ],
-                      );
-                    }).toList(),
-                  ),
-                  Text(
-                    'Total payable price: \$${(cp.totalCart() + 4.99).toStringAsFixed(2)}',
-                  ),
-                  const SizedBox(height: 10,),
-                  const Text(
-                    'Selected payment method',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
+              content: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    ListBody(
+                      children: cp.carts.map((cartItem) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${cartItem.productData['name']} x ${cartItem.quantity}',
+                            ),
+                          ],
+                        );
+                      }).toList(),
                     ),
-                  )
-                ],
+                    Text(
+                      'Total payable price: \$${(cp.totalCart() + 4.99).toStringAsFixed(2)}',
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Selected payment method',
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 10),
+                
+                    const Text(
+                      'Add your Delivery Address',
+                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+                    ),
+                    TextField(
+                      decoration: InputDecoration(
+                        hintText: 'enter your address',
+                        errorText: addressError,
+                        border: const OutlineInputBorder(),
+                      ),
+                    ),
+                  ],
+                ),
               ),
+              actions: [
+                TextButton(
+                    onPressed: (){},
+                    child: const Text('Confirm'),
+                ),
+                TextButton(
+                  onPressed: (){
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('cancel'),
+                ),
+              ],
             );
           },
         );

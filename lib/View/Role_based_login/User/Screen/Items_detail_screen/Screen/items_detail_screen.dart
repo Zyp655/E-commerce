@@ -64,12 +64,12 @@ class _ItemsDetailScreen extends ConsumerState<ItemsDetailScreen> {
                 return Column(
                   children: [
                     Hero(
-                      tag: widget.productItems.id,
+                      tag: '${widget.productItems.id}_$index',
                       child: Image.asset(
+                        widget.productItems['image'],
                         width: size.width * 0.85,
                         height: size.height * 0.4,
                         fit: BoxFit.cover,
-                        widget.productItems['image'],
                       ),
                     ),
                     SizedBox(height: 20),

@@ -33,10 +33,10 @@ class CartItems extends ConsumerWidget {
           Row(
             children: [
               const SizedBox(width: 20),
-              CachedNetworkImage(
-                imageUrl: cart.productData['image'],
+              Image.asset(
+                cart.productData['image'],
                 height: 120,
-                width: 100,
+                width: 70,
                 fit: BoxFit.cover,
               ),
               SizedBox(width: 20),

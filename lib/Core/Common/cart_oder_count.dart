@@ -20,7 +20,7 @@ class CartOderCount extends ConsumerWidget {
         cp.carts.isNotEmpty ?
 
         Positioned(
-          right: -3,
+          right: -1,
           top: -5,
           child: GestureDetector(
             onTap: () {
