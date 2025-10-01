@@ -11,9 +11,11 @@ final cartService = ChangeNotifierProvider<CartProvider>(
 
 class CartProvider extends ChangeNotifier {
   List<CartModel> _carts = [];
-
   List<CartModel> get carts => _carts;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  CartProvider(){
+    loadCartItems();
+  }
 
   void reset() {
     _carts = [];
@@ -119,6 +121,7 @@ class CartProvider extends ChangeNotifier {
     }catch(e){
       print(e.toString());
     }
+    notifyListeners();
   }
   Future<void> deleteCartItem(String productId) async{
     int index =_carts.indexWhere((element)=> element.productId == productId);
