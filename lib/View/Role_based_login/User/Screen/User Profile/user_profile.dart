@@ -1,19 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce/Core/Provider/cart_provider.dart';
+import 'package:e_commerce/Core/Provider/favorite_provider.dart';
 import 'package:e_commerce/View/Role_based_login/User/Screen/Payment/payment_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../Services/auth_service.dart';
 import '../../../login_screen.dart';
 
 AuthService authService=AuthService();
 
-class UserProfile extends StatelessWidget {
+class UserProfile extends ConsumerWidget {
   const UserProfile({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     final userId = FirebaseAuth.instance.currentUser?.uid;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -133,6 +136,8 @@ class UserProfile extends StatelessWidget {
                             builder:(_) => const LoginScreen()
                         )
                       );
+                      ref.invalidate(cartService);
+                      ref.invalidate(favoriteProvider);
                     },
                     child: const ListTile(
                       leading: Icon(
