@@ -1,6 +1,10 @@
 import 'package:e_commerce/Core/Common/Utils/colors.dart';
+import 'package:e_commerce/Core/Common/payment_method_list.dart';
 import 'package:e_commerce/Core/Provider/cart_provider.dart';
+import 'package:e_commerce/View/Role_based_login/User/Screen/User%20Activity/Order/my_order_screen.dart';
 import 'package:e_commerce/View/Role_based_login/User/Screen/User%20Activity/Widget/cart_items.dart';
+import 'package:e_commerce/Widgets/show_scackbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dotted_line/dotted_line.dart';
@@ -13,6 +17,10 @@ class CartScreen extends ConsumerStatefulWidget {
 }
 
 class _CartScreenState extends ConsumerState<CartScreen> {
+  String? selectedPaymentMethodId;
+  double? selectedPaymentBalance;
+  TextEditingController addressController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final cp = ref.watch(cartService);
@@ -57,11 +65,14 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                         ),
                         child: GestureDetector(
                           onTap: () {},
+                          onLongPress: (){
+                            cp.deleteCartItem(carts[index].productId);
+                          },
                           child: CartItems(cart: carts[index]),
                         ),
                       );
                     },
-                  ),
+                ),
           ),
           if (carts.isNotEmpty) _buildSummarySection(context, cp),
         ],
@@ -181,13 +192,31 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                     const SizedBox(height: 10),
                     const Text(
                       'Selected payment method',
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     const SizedBox(height: 10),
-                
+
+                    PaymentMethodList(
+                      selectedPaymentMethodId: selectedPaymentMethodId,
+                      selectedPaymentBalance: selectedPaymentBalance,
+                      finalAmout: cp.totalCart() + 4.99,
+                      onPaymentMethodSelected: (p0, p1) {
+                        setDialogState(() {
+                          selectedPaymentMethodId = p0;
+                          selectedPaymentBalance = p1;
+                        });
+                      },
+                    ),
+
                     const Text(
                       'Add your Delivery Address',
-                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                      ),
                     ),
                     TextField(
                       decoration: InputDecoration(
@@ -201,11 +230,24 @@ class _CartScreenState extends ConsumerState<CartScreen> {
               ),
               actions: [
                 TextButton(
-                    onPressed: (){},
-                    child: const Text('Confirm'),
+                  onPressed: () {
+                    if (selectedPaymentMethodId == null) {
+                      showSnakeBar(context, 'please select a payment method!');
+                    } else if (selectedPaymentBalance! < cp.totalCart() + 4.9) {
+                      showSnakeBar(context, 'Insufficient balance');
+                    } else if (addressController.text.length < 8) {
+                      setDialogState(() {
+                        addressError =
+                            'your address must be reflect your address identity';
+                      });
+                    } else {
+                      _saveOrder(cp, context);
+                    }
+                  },
+                  child: const Text('Confirm'),
                 ),
                 TextButton(
-                  onPressed: (){
+                  onPressed: () {
                     Navigator.of(context).pop();
                   },
                   child: const Text('cancel'),
@@ -215,6 +257,26 @@ class _CartScreenState extends ConsumerState<CartScreen> {
           },
         );
       },
+    );
+  }
+
+  Future<void> _saveOrder(CartProvider cp, context) async {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId == null) {
+      showSnakeBar(context, 'you need to be logged in to place an order.');
+      return;
+    }
+    await cp.saveOrder(
+      userId,
+      context,
+      selectedPaymentMethodId,
+      cp.totalCart() + 4.99,
+      addressController.text,
+    );
+    showSnakeBar(context, 'Order Placed successfully');
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const MyOrderScreen()),
     );
   }
 }

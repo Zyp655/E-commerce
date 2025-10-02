@@ -2,27 +2,28 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/Core/Provider/cart_provider.dart';
 import 'package:e_commerce/Core/Provider/favorite_provider.dart';
-import 'package:e_commerce/View/Role_based_login/User/Screen/Payment/payment_screen.dart';
+import 'package:e_commerce/View/Role_based_login/User/Screen/User%20Activity/Order/my_order_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../Services/auth_service.dart';
 import '../../../login_screen.dart';
+import '../User Activity/Payment/payment_screen.dart';
 
-AuthService authService=AuthService();
+AuthService authService = AuthService();
 
 class UserProfile extends ConsumerWidget {
   const UserProfile({super.key});
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final userId = FirebaseAuth.instance.currentUser?.uid;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
           backgroundColor: Colors.white
-      ) ,
+      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -33,11 +34,11 @@ class UserProfile extends ConsumerWidget {
                 width: double.maxFinite,
                 child: StreamBuilder(
                     stream: FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(userId)
-                      .snapshots(),
-                    builder: (context , snapshot){
-                      if(!snapshot.hasData || !snapshot.data!.exists){
+                        .collection('users')
+                        .doc(userId)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData || !snapshot.data!.exists) {
                         return const Center(
                           child: CircularProgressIndicator(),
                         );
@@ -48,7 +49,7 @@ class UserProfile extends ConsumerWidget {
                           CircleAvatar(
                             radius: 60,
                             backgroundImage: CachedNetworkImageProvider(
-                              'assets/Auth/avatar profile.jpg'
+                                'assets/Auth/avatar profile.jpg'
                             ),
                           ),
                           Text(
@@ -75,6 +76,12 @@ class UserProfile extends ConsumerWidget {
               Column(
                 children: [
                   GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => const MyOrderScreen()
+                      )
+                      );
+                    },
                     child: const ListTile(
                       leading: Icon(
                         Icons.change_circle_rounded,
@@ -90,12 +97,12 @@ class UserProfile extends ConsumerWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const PaymentScreen()
-                        )
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const PaymentScreen()
+                          )
                       );
                     },
                     child: const ListTile(
@@ -128,13 +135,13 @@ class UserProfile extends ConsumerWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       authService.signOut();
                       Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder:(_) => const LoginScreen()
-                        )
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const LoginScreen()
+                          )
                       );
                       ref.invalidate(cartService);
                       ref.invalidate(favoriteProvider);

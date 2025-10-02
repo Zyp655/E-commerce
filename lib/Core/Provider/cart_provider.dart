@@ -58,7 +58,7 @@ class CartProvider extends ChangeNotifier {
       );
       await _firestore.collection('userCart').doc(productId).set({
         'productData': productData,
-        'Quantity': 1,
+        'quantity': 1,
         'selectedColor': selectedColor,
         'selectedSize': selectedSize,
         'uid': userId,
@@ -100,6 +100,48 @@ class CartProvider extends ChangeNotifier {
       total += _carts[i].quantity * (finalPrice);
     }
     return total;
+  }
+  Future<void> saveOrder(String userId , BuildContext context , paymentMethodId, finalPrice , address) async{
+    if(_carts.isEmpty) return;
+    final paymentRef= FirebaseFirestore.instance
+      .collection('User Payment Method')
+      .doc(paymentMethodId);
+    try{
+      await FirebaseFirestore.instance.runTransaction((transaction) async{
+        final snapshot = await transaction.get(paymentRef);
+        if(!snapshot.exists){
+          throw Exception('Payment method not found');
+        }
+        final currentBalance = snapshot['balance'] as num;
+        if (currentBalance < finalPrice){
+          throw Exception('Insufficient funds');
+        }
+        transaction.update(paymentRef, {
+          'balance':currentBalance-finalPrice,
+        });
+        final orderData={
+          'userId':userId,
+          'items':_carts.map((cartItem){
+            return{
+              'productId':cartItem.productId,
+              'quantity':cartItem.quantity,
+              'selectedColor':cartItem.selectedColor,
+              'selectedSize':cartItem.selectedSize,
+              'name':cartItem.productData['name'],
+              'price':cartItem.productData['price'],
+            };
+          }).toList(),
+          'totalPrice':finalPrice,
+          'status':'pending',
+          'createdAt':FieldValue.serverTimestamp(),
+          'adress':address,
+        };
+        final orderRef=FirebaseFirestore.instance.collection('Orders').doc();
+            transaction.set(orderRef, orderData);
+      });
+    }catch(e){
+      throw Exception(e.toString());
+    }
   }
 
   Future<void> loadCartItems() async {
