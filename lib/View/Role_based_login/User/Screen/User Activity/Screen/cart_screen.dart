@@ -232,9 +232,9 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                 TextButton(
                   onPressed: () {
                     if (selectedPaymentMethodId == null) {
-                      showSnakeBar(context, 'please select a payment method!');
+                      showSnackBar(context, 'please select a payment method!');
                     } else if (selectedPaymentBalance! < cp.totalCart() + 4.9) {
-                      showSnakeBar(context, 'Insufficient balance');
+                      showSnackBar(context, 'Insufficient balance');
                     } else if (addressController.text.length < 8) {
                       setDialogState(() {
                         addressError =
@@ -263,7 +263,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   Future<void> _saveOrder(CartProvider cp, context) async {
     final userId = FirebaseAuth.instance.currentUser?.uid;
     if (userId == null) {
-      showSnakeBar(context, 'you need to be logged in to place an order.');
+      showSnackBar(context, 'you need to be logged in to place an order.');
       return;
     }
     await cp.saveOrder(
@@ -273,7 +273,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       cp.totalCart() + 4.99,
       addressController.text,
     );
-    showSnakeBar(context, 'Order Placed successfully');
+    showSnackBar(context, 'Order Placed successfully');
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const MyOrderScreen()),

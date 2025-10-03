@@ -173,10 +173,10 @@ class AddItems extends ConsumerWidget {
                           _nameController.text,
                           _priceController.text
                       );
-                      showSnakeBar(context, 'Item added successfully');
+                      showSnackBar(context, 'Item added successfully');
                       Navigator.of(context).pop();
                     }catch(e){
-                      showSnakeBar(context, 'Error $e');
+                      showSnackBar(context, 'Error $e');
                     }
                   },
                   buttonText: 'Save item',

@@ -1,10 +1,11 @@
 import 'package:e_commerce/Widgets/my_button.dart';
-import 'package:e_commerce/Widgets/show_scackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../../../Widgets/show_scackbar.dart';
 
 class AddPaymentMethod extends StatefulWidget {
   const AddPaymentMethod({super.key});
@@ -161,7 +162,7 @@ class _AddPaymentMethodState extends State<AddPaymentMethod> {
           .where('paymentSystem', isEqualTo: selectedPaymentSystemData!['name'])
           .get();
       if (existingMethods.docs.isNotEmpty) {
-        showSnakeBar(context, 'u have already added this payment method');
+        showSnackBar(context, 'u have already added this payment method');
         return;
       }
       await paymentCollection.add({
@@ -172,10 +173,10 @@ class _AddPaymentMethodState extends State<AddPaymentMethod> {
         'paymentSystem': selectedPaymentSystemData!['name'],
         'image': selectedPaymentSystemData!['image'],
       });
-      showSnakeBar(context, 'payment method successfully added');
+      showSnackBar(context, 'payment method successfully added');
       Navigator.pop(context);
     } else {
-      showSnakeBar(context, 'failded to add payment method.please try again');
+      showSnackBar(context, 'failded to add payment method.please try again');
     }
   }
 }

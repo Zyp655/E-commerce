@@ -3,12 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/Core/Common/cart_oder_count.dart';
 import 'package:e_commerce/Core/Provider/cart_provider.dart';
 import 'package:e_commerce/Core/Provider/favorite_provider.dart';
-import 'package:e_commerce/Widgets/show_scackbar.dart';
+import 'package:e_commerce/View/Role_based_login/User/Screen/Items_detail_screen/Controller/place_order_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../../../../Core/Common/Utils/colors.dart';
+import '../../../../../../Core/Common/payment_method_list.dart';
 import '../../../../../../Core/Models/model.dart';
+import '../../../../../../Widgets/show_scackbar.dart';
 import '../Widgets/size_and_color.dart';
 
 class ItemsDetailScreen extends ConsumerStatefulWidget {
@@ -24,15 +26,19 @@ class _ItemsDetailScreen extends ConsumerState<ItemsDetailScreen> {
   int currentIndex = 0;
   int selectedColorIndex = 1;
   int selectedSizeIndex = 1;
+  String? selectedPaymentMethodId;
+  double? selectedPaymentBalance;
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     CartProvider cp = ref.watch(cartService);
     FavoriteProvider provider = ref.watch(favoriteProvider);
     final finalPrice = num.parse(
       (widget.productItems['price'] *
-              (1 - widget.productItems['discountPercentage'] / 100))
+          (1 - widget.productItems['discountPercentage'] / 100))
           .toStringAsFixed(2),
     );
     return Scaffold(
@@ -41,10 +47,7 @@ class _ItemsDetailScreen extends ConsumerState<ItemsDetailScreen> {
         centerTitle: true,
         backgroundColor: fbackgroundColor2,
         title: const Text('Detail Product'),
-        actions: [
-          CartOderCount(),
-          SizedBox(width: 20),
-        ],
+        actions: [CartOderCount(), SizedBox(width: 20)],
       ),
       body: ListView(
         children: [
@@ -77,18 +80,19 @@ class _ItemsDetailScreen extends ConsumerState<ItemsDetailScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(
                         3,
-                        (index) => AnimatedContainer(
-                          duration: const Duration(microseconds: 300),
-                          margin: const EdgeInsets.only(right: 4),
-                          width: 7,
-                          height: 7,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: index == currentIndex
-                                ? Colors.blue
-                                : Colors.grey.shade300,
-                          ),
-                        ),
+                            (index) =>
+                            AnimatedContainer(
+                              duration: const Duration(microseconds: 300),
+                              margin: const EdgeInsets.only(right: 4),
+                              width: 7,
+                              height: 7,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: index == currentIndex
+                                    ? Colors.blue
+                                    : Colors.grey.shade300,
+                              ),
+                            ),
                       ),
                     ),
                   ],
@@ -116,7 +120,8 @@ class _ItemsDetailScreen extends ConsumerState<ItemsDetailScreen> {
                     Icon(Icons.star, color: Colors.amber, size: 17),
                     Flexible(
                       child: Text(
-                        ' ${Random().nextInt(2) + 3}.${Random().nextInt(5) + 4}',
+                        ' ${Random().nextInt(2) + 3}.${Random().nextInt(5) +
+                            4}',
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -218,57 +223,83 @@ class _ItemsDetailScreen extends ConsumerState<ItemsDetailScreen> {
           width: size.width * 0.9,
           child: Row(
             children: [
-                 Expanded(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        final productId = widget.productItems.id;
-                        final productData =
-                        widget.productItems.data() as Map<String, dynamic>;
-                        final selectedColor =
-                        widget.productItems['fcolor'][selectedColorIndex];
-                        final selectedSize =
-                        widget.productItems['size'][selectedSizeIndex];
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      final productId = widget.productItems.id;
+                      final productData =
+                      widget.productItems.data() as Map<String, dynamic>;
+                      final selectedColor =
+                      widget.productItems['fcolor'][selectedColorIndex];
+                      final selectedSize =
+                      widget.productItems['size'][selectedSizeIndex];
 
-                        cp.addCart(
-                          productId,
-                          productData,
-                          selectedColor,
-                          selectedSize,
-                        );
-                        showSnakeBar(context, '${productData['name']} added to cart');
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Iconsax.shopping_bag, color: Colors.black),
-                          SizedBox(width: 5),
-                          Text(
-                            'Add To Cart',
-                            style: TextStyle(
-                              color: Colors.black,
-                              letterSpacing: -1,
-                            ),
+                      cp.addCart(
+                        productId,
+                        productData,
+                        selectedColor,
+                        selectedSize,
+                      );
+                      showSnackBar(
+                        context,
+                        '${productData['name']} added to cart',
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Iconsax.shopping_bag, color: Colors.black),
+                        SizedBox(width: 5),
+                        Text(
+                          'Add To Cart',
+                          style: TextStyle(
+                            color: Colors.black,
+                            letterSpacing: -1,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
+              ),
 
               SizedBox(width: 10),
               Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  color: Colors.black,
-                  child: const Center(
-                    child: Text(
-                      'Buy Now',
-                      style: TextStyle(color: Colors.white, letterSpacing: -1),
+                child: GestureDetector(
+                  onTap: () async {
+                    final productId = widget.productItems.id;
+                    final productData =
+                    widget.productItems.data() as Map<String, dynamic>;
+                    final selectedColor =
+                    widget.productItems['fcolor'][selectedColorIndex];
+                    final selectedSize =
+                    widget.productItems['size'][selectedSizeIndex];
+                    _showOrderConfirmationDialog(
+                      cp,
+                      context,
+                      productId,
+                      productData,
+                      selectedColor,
+                      selectedSize,
+                      finalPrice + 4.99,
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 18),
+                    color: Colors.black,
+                    child: const Center(
+                      child: Text(
+                        'Buy Now',
+                        style: TextStyle(
+                          color: Colors.white,
+                          letterSpacing: -1,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -277,6 +308,121 @@ class _ItemsDetailScreen extends ConsumerState<ItemsDetailScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void _showOrderConfirmationDialog(CartProvider cp,
+      BuildContext context,
+      String productId,
+      Map<String, dynamic> productData,
+      String selectedColor,
+      String selectedSize,
+      finalPrice,) {
+    String? addressError;
+    TextEditingController addressController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: Text('Confirm your Order'),
+              content: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text('Product Name : ${productData['name']}'),
+                    const Text('Duantity : 1 '),
+                    Text('Selected Color : $selectedColor'),
+                    Text('Selected Size : $selectedSize'),
+                    Text('Selected Color : $finalPrice'),
+                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Selected payment method',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+
+                    PaymentMethodList(
+                      selectedPaymentMethodId: selectedPaymentMethodId,
+                      selectedPaymentBalance: selectedPaymentBalance,
+                      finalAmout: finalPrice,
+                      onPaymentMethodSelected: (p0, p1) {
+                        setDialogState(() {
+                          selectedPaymentMethodId = p0;
+                          selectedPaymentBalance = p1;
+                        });
+                      },
+                    ),
+
+                    const Text(
+                      'Add your Delivery Address',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                      ),
+                    ),
+                    TextField(
+                      decoration: InputDecoration(
+                        hintText: 'enter your address',
+                        errorText: addressError,
+                        border: const OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            if (selectedPaymentMethodId == null) {
+                              showSnackBar(
+                                context,
+                                'please select a payment method!',
+                              );
+                            } else if (selectedPaymentBalance! <
+                                finalPrice + 4.99) {
+                              showSnackBar(context, 'Insufficient balance');
+                            } else if (addressController.text.length < 8) {
+                              setDialogState(() {
+                                addressError =
+                                'your address must be reflect your address identity';
+                              });
+                            } else {
+                              placeOrder(
+                                  productId,
+                                  productData,
+                                  selectedColor,
+                                  selectedSize,
+                                  selectedPaymentMethodId!,
+                                  finalPrice,
+                                  addressController.text,
+                                  context
+                              );
+                            }
+                          },
+                          child: const Text('Confirm'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('cancel'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

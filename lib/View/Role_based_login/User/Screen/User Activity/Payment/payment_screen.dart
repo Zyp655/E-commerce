@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_commerce/Widgets/show_scackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../../Widgets/show_scackbar.dart';
 import 'add_payment.dart';
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({super.key});
@@ -125,7 +125,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 onPressed: () async {
                   final amout = double.tryParse(amoutController.text);
                   if(amout == null || amout <=0 ){
-                    showSnakeBar(context, 'Please enter a valid positive amout');
+                    showSnackBar(context, 'Please enter a valid positive amout');
                     return;
                   }
                   try{
@@ -133,9 +133,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       'balance': FieldValue.increment(amout),
                     });
                     Navigator.pop(context);
-                        showSnakeBar(context, 'Fund Added Successfully');
+                        showSnackBar(context, 'Fund Added Successfully');
                   }catch(e){
-                    showSnakeBar(context, 'Error adding funds: $e');
+                    showSnackBar(context, 'Error adding funds: $e');
                   }
                 },
                 child: Text('Add')
