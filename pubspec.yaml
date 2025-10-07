@@ -49,6 +49,7 @@ dependencies:
   freezed: ^2.4.7
   json_serializable: ^6.7.1
   iconsax_flutter: ^1.0.1
+  serverpod_flutter: ^2.9.1
 
 dev_dependencies:
   flutter_test:
