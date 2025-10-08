@@ -50,7 +50,7 @@ dependencies:
   json_serializable: ^6.7.1
   iconsax_flutter: ^1.0.1
   serverpod_flutter: ^2.9.1
-
+  firebase_admin: ^0.3.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

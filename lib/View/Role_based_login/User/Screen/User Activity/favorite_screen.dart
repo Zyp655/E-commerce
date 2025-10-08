@@ -15,6 +15,7 @@ class FavoriteScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: fbackgroundColor2,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: fbackgroundColor2,
         centerTitle: true,
         title: const Text(

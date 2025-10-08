@@ -1,5 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce/Core/Provider/cart_provider.dart';
+import 'package:e_commerce/Core/Provider/favorite_provider.dart';
+import 'package:e_commerce/View/Role_based_login/Admin/Screen/order_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../Services/auth_service.dart';
@@ -7,8 +10,9 @@ import 'package:flutter/material.dart';
 import '../../login_screen.dart';
 import 'add_items.dart';
 
-final AuthService _authService=AuthService();
-class AdminHomeScreen extends ConsumerStatefulWidget{
+final AuthService _authService = AuthService();
+
+class AdminHomeScreen extends ConsumerStatefulWidget {
   const AdminHomeScreen({super.key});
 
   @override
@@ -16,196 +20,221 @@ class AdminHomeScreen extends ConsumerStatefulWidget{
 }
 
 class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen> {
-  final CollectionReference items=
-    FirebaseFirestore.instance.collection('items');
-    String? selectedCategory;
-    List<String> categories=[];
-    @override
+  final CollectionReference items = FirebaseFirestore.instance.collection(
+    'items',
+  );
+  String? selectedCategory;
+  List<String> categories = [];
+
+  @override
   void initState() {
     fetchCategories();
     super.initState();
   }
-  Future<void> fetchCategories()async{
-      QuerySnapshot snapshot=
-        await FirebaseFirestore.instance.collection('Category').get();
-      setState(() {
-        categories=snapshot.docs.map((doc)=> doc['name'] as String).toList();
-      });
+
+  Future<void> fetchCategories() async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('Category')
+        .get();
+    setState(() {
+      categories = snapshot.docs.map((doc) => doc['name'] as String).toList();
+    });
   }
+
   @override
   Widget build(BuildContext context) {
-    String uid=FirebaseAuth.instance.currentUser!.uid;
+    String uid = FirebaseAuth.instance.currentUser!.uid;
     return Scaffold(
       backgroundColor: Colors.blueAccent[70],
       body: SafeArea(
-          child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    const Text(
-                      'Your Upload Items',
-                      style: TextStyle(
-                        fontSize :18,
-                        fontWeight: FontWeight.bold,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  const Text(
+                    'Your Upload Items',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const Spacer(),
+                  Stack(
+                    children: [
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.receipt_long),
                       ),
-                    ),
-                    const Spacer(),
-                    Stack(
-                      children: [
-                        IconButton(
-                          onPressed: (){},
-                          icon: const Icon(Icons.receipt_long),
+                      Positioned(
+                        top: 6,
+                        right: 8,
+                        child: StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection('Orders')
+                              .snapshots(),
+                          builder:
+                              (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                                if (snapshot.hasError) {
+                                  return Text('Error loading orders');
+                                }
+                                final orderCount = snapshot.data?.docs.length;
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const AdminOrderScreen(),
+                                      ),
+                                    );
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 9,
+                                    backgroundColor: Colors.red,
+                                    child: Center(
+                                      child: Text(
+                                        orderCount.toString(),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
                         ),
-                        const Positioned(
-                          top: 6,
-                          right: 8,
-                          child: CircleAvatar(
-                            radius: 9,
-                            backgroundColor: Colors.red,
-                            child: Center(
-                              child: Text(
-                                '0',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13,
+                      ),
+                    ],
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      _authService.signOut();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                      );
+                      ref.invalidate(favoriteProvider);
+                      ref.invalidate(cartService);
+                    },
+                    child: const Icon(Icons.exit_to_app),
+                  ),
+
+                  DropdownButton<String>(
+                    items: categories.map((String category) {
+                      return DropdownMenuItem(
+                        value: category,
+                        child: Text(category),
+                      );
+                    }).toList(),
+                    icon: const Icon(Icons.tune),
+                    underline: const SizedBox(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedCategory = newValue;
+                      });
+                    },
+                  ),
+                ],
+              ),
+
+              Expanded(
+                child: StreamBuilder(
+                  stream: items
+                      .where("uploadedBy", isEqualTo: uid)
+                      .where('Auth', isEqualTo: selectedCategory)
+                      .snapshots(),
+                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return const Center(child: Text('Error loading items'));
+                    }
+                    final documents = snapshot.data?.docs ?? [];
+                    if (documents.isEmpty) {
+                      return const Center(child: Text('no items uploaded'));
+                    }
+                    return ListView.builder(
+                      itemCount: documents.length,
+                      itemBuilder: (context, index) {
+                        final items =
+                            documents[index].data() as Map<String, dynamic>;
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 10),
+                          child: Material(
+                            borderRadius: BorderRadius.circular(10),
+                            elevation: 2,
+                            child: ListTile(
+                              leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: CachedNetworkImage(
+                                  imageUrl: items['image'],
+                                  height: 60,
+                                  width: 60,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                            ),
-                          )
-                        )
-
-                    ],
-                    ),
-                    GestureDetector(
-                      onTap: (){
-                        _authService.signOut();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginScreen(),
-                            )
-                        );
-
-                      },
-                      child: const Icon(Icons.exit_to_app),
-                    ),
-
-                    DropdownButton<String>(
-                        items: categories.map((String category){
-                          return DropdownMenuItem(
-                            value: category,
-                            child: Text(category) ,
-                          );
-                        }).toList(),
-                      icon:  const Icon(Icons.tune),
-                      underline: const SizedBox(),
-                      onChanged: (String? newValue){
-                          setState(() {
-                            selectedCategory=
-                                newValue;
-                          });
-                      },
-                    )
-                  ],
-                ),
-
-                Expanded(
-                    child: StreamBuilder(
-                        stream: items
-                            .where("uploadedBy", isEqualTo: uid)
-                            .where('Auth', isEqualTo: selectedCategory)
-                            .snapshots(),
-                        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
-                          if(snapshot.hasError){
-                            return const Center(child: Text('Error loading items'));
-                          }
-                          final documents = snapshot.data?.docs ?? [];
-                          if(documents.isEmpty){
-                            return const Center(child: Text('no items uploaded'));
-                          }
-                          return ListView.builder(
-                            itemCount :documents.length,
-                            itemBuilder:(context,index){
-                              final items=
-                                  documents[index].data() as Map<String,dynamic>;
-                              return Padding(
-                                padding: EdgeInsets.only(bottom: 10),
-                                child: Material(
-                                  borderRadius: BorderRadius.circular(10),
-                                  elevation: 2,
-                                  child: ListTile(
-                                    leading: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: CachedNetworkImage(
-                                        imageUrl: items['image'],
-                                        height: 60,
-                                        width: 60,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    title: Text(
-                                      items['name'] ?? "N/A",
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    subtitle: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              items['price'] !=null
-                                                  ?'\$${items['price']}.00'
-                                                  : 'N/A',
-                                              style: const TextStyle(
-                                                fontSize:15,
-                                                letterSpacing: -1,
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.red,
-                                                ),
-                                            ),
-                                            const SizedBox(width: 5),
-                                            Text(
-                                              '${items ['Auth'] ?? 'N/A'}',
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 5,)
-                                      ],
-                                    ) ,
-                                  ),
+                              title: Text(
+                                items['name'] ?? "N/A",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
                                 ),
-                              );
-                            }
-                          );
-                        },
-                    )
-                )
-              ],
-            ),
-          )
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        items['price'] != null
+                                            ? '\$${items['price']}.00'
+                                            : 'N/A',
+                                        style: const TextStyle(
+                                          fontSize: 15,
+                                          letterSpacing: -1,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Text('${items['Auth'] ?? 'N/A'}'),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
 
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blueGrey,
 
-        onPressed: ()async{
-          await Navigator.of(context).push(
-              MaterialPageRoute(
-                  builder: (context) =>  AddItems(),
-              ));
+        onPressed: () async {
+          await Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (context) => AddItems()));
         },
-        child: const Icon(Icons.add, color: Colors.purpleAccent,),
+        child: const Icon(Icons.add, color: Colors.purpleAccent),
       ),
-
     );
   }
 }
-
