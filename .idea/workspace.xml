@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="26e71962-febf-4a20-a86e-27e900a3bf09" name="Changes" comment="Organize Flutter app into its own subdirectory">
+      <change afterPath="$PROJECT_DIR$/.github/workflows/deployment-aws.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/workflows/deployment-gcp.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_client/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_client/CHANGELOG.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_client/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_client/analysis_options.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_client/dartdoc_options.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_client/doc/endpoint.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_client/lib/ecommerce_backend_client.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_client/lib/src/protocol/client.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_client/lib/src/protocol/greeting.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_client/lib/src/protocol/protocol.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_client/pubspec.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/.gcloudignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/CHANGELOG.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/analysis_options.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/bin/main.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/config/development.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/config/generator.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/config/production.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/config/staging.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/config/test.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/dart_test.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/aws/scripts/appspec.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/aws/scripts/install_dependencies" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/aws/scripts/run_serverpod" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/aws/scripts/start_server" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/aws/terraform/balancers-staging.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/aws/terraform/balancers.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/aws/terraform/cloudfront-web-staging.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/aws/terraform/cloudfront-web.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/aws/terraform/code-deploy.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/aws/terraform/config.auto.tfvars" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/aws/terraform/database.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/aws/terraform/init-script.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/aws/terraform/instances.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/aws/terraform/main.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/aws/terraform/redis.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/aws/terraform/staging.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/aws/terraform/storage.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/aws/terraform/variables.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/aws/terraform/vpc.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/gcp/console_gcr/cloud-run-deploy.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/gcp/terraform_gce/config.auto.tfvars" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/gcp/terraform_gce/main.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/deploy/gcp/terraform_gce/variables.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/docker-compose.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/lib/server.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/lib/src/birthday_reminder.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/lib/src/generated/endpoints.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/lib/src/generated/greeting.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/lib/src/generated/protocol.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/lib/src/generated/protocol.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/lib/src/greeting.spy.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/lib/src/greeting_endpoint.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/lib/src/web/routes/root.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/lib/src/web/widgets/built_with_serverpod_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/migrations/20251007122855944/definition.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/migrations/20251007122855944/definition.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/migrations/20251007122855944/definition_project.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/migrations/20251007122855944/migration.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/migrations/20251007122855944/migration.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/migrations/migration_registry.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/pubspec.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/pubspec.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/test/integration/greeting_endpoint_test.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/test/integration/test_tools/serverpod_test_tools.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/web/static/css/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/web/static/images/background.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/web/static/images/serverpod-logo.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ecommerce_backend_server/web/templates/built_with_serverpod.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.metadata" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis_options.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/google-services.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/debug/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/kotlin/com/example/e_commerce/MainActivity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/drawable-v21/launch_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/drawable/launch_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/values-night/styles.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/values/styles.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/profile/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/gradle.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/settings.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Auth/avatar profile.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Auth/login.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Auth/signup.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/baby.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/category/items.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/kids.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/men.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/teen.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/woman.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Flutter/AppFrameworkInfo.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Flutter/Debug.xcconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Flutter/Release.xcconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcworkspace/contents.xcworkspacedata" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/AppDelegate.swift" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Base.lproj/LaunchScreen.storyboard" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Base.lproj/Main.storyboard" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Info.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Runner-Bridging-Header.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/RunnerTests/RunnerTests.swift" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Core/Common/Utils/colors.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Core/Common/cart_oder_count.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Core/Common/color_conversion.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Core/Common/payment_method_list.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Core/Models/cart_model.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Core/Models/category_model.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Core/Models/model.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Core/Models/sub_category.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Core/Provider/cart_provider.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Core/Provider/favorite_provider.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Services/auth_service.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Role_based_login/Admin/Controller/add_items_controller.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Role_based_login/Admin/Models/add_items_model.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Role_based_login/Admin/Models/add_items_model.freezed.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Role_based_login/Admin/Screen/add_items.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Role_based_login/Admin/Screen/admin_home_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Role_based_login/User/Screen/Items_detail_screen/Controller/place_order_controller.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Role_based_login/User/Screen/Items_detail_screen/Screen/items_detail_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Role_based_login/User/Screen/Items_detail_screen/Widgets/size_and_color.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Role_based_login/User/Screen/User Activity/Order/my_order_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Role_based_login/User/Screen/User Activity/Order/user_order_detail.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Role_based_login/User/Screen/User Activity/Payment/add_payment.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Role_based_login/User/Screen/User Activity/Payment/payment_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Role_based_login/User/Screen/User Activity/Screen/cart_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Role_based_login/User/Screen/User Activity/Widget/cart_items.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Role_based_login/User/Screen/User Activity/favorite_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Role_based_login/User/Screen/User Profile/user_profile.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Role_based_login/User/category_items.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Role_based_login/User/user_app_home_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Role_based_login/User/user_app_main_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Role_based_login/login_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Role_based_login/signup_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Widgets/banner.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/Widgets/curated_items.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Widgets/my_button.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Widgets/show_scackbar.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/firebase_options.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/flutter/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/flutter/generated_plugin_registrant.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/flutter/generated_plugin_registrant.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/flutter/generated_plugins.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/runner/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/runner/main.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/runner/my_application.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/runner/my_application.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Flutter/Flutter-Debug.xcconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Flutter/Flutter-Release.xcconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner.xcodeproj/project.pbxproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner.xcworkspace/contents.xcworkspacedata" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/AppDelegate.swift" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_1024.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_128.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_64.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Base.lproj/MainMenu.xib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Configs/AppInfo.xcconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Configs/Debug.xcconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Configs/Release.xcconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Configs/Warnings.xcconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/DebugProfile.entitlements" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Info.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/MainFlutterWindow.swift" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Release.entitlements" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/RunnerTests/RunnerTests.swift" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/widget_test.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/favicon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/icons/Icon-192.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/icons/Icon-512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/icons/Icon-maskable-192.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/icons/Icon-maskable-512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/flutter/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/flutter/generated_plugin_registrant.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/Runner.rc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/flutter_window.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/flutter_window.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/main.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/resource.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/resources/app_icon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/runner.exe.manifest" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/utils.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/utils.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/win32_window.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/win32_window.h" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="SYNC" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Zyp655&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Zyp655/E-commerce.git&quot;,
+    &quot;accountId&quot;: &quot;7ba0eae1-5a36-4d54-a59a-fba34c8b3a90&quot;
+  }
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="33jvIkbBaAKPoaxF8uQvL24zYyA" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "Merging main",
+    "show.migrate.to.gradle.popup": "false"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="filePath" value="$PROJECT_DIR$/e_commerce/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="26e71962-febf-4a20-a86e-27e900a3bf09" name="Changes" comment="" />
+      <created>1759843218128</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1759843218128</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Organize Flutter app into its own subdirectory">
+      <option name="closed" value="true" />
+      <created>1759843671251</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1759843671251</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Organize Flutter app into its own subdirectory">
+      <option name="closed" value="true" />
+      <created>1759843680457</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1759843680457</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Organize Flutter app into its own subdirectory" />
+    <option name="LAST_COMMIT_MESSAGE" value="Organize Flutter app into its own subdirectory" />
+  </component>
+</project>
