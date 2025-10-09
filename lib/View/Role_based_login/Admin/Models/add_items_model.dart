@@ -12,8 +12,6 @@ class AddItemState with _$AddItemState {
     @Default([]) List<String> colors,
     @Default(false) bool isDiscounted,
     String? discountPercentage,
-    String? errorMessage,
-    @Default(false) bool isSuccess,
   }) = _AddItemState;
 }
 

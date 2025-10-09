@@ -150,7 +150,7 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen> {
                 child: StreamBuilder(
                   stream: items
                       .where("uploadedBy", isEqualTo: uid)
-                      .where('category', isEqualTo: selectedCategory)
+                      .where('Auth', isEqualTo: selectedCategory)
                       .snapshots(),
                   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasError) {
@@ -174,7 +174,7 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen> {
                               leading: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: CachedNetworkImage(
-                                  imageUrl: items['picture'],
+                                  imageUrl: items['image'],
                                   height: 60,
                                   width: 60,
                                   fit: BoxFit.cover,
@@ -206,7 +206,7 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen> {
                                         ),
                                       ),
                                       const SizedBox(width: 5),
-                                      Text('${items['category'] ?? 'N/A'}'),
+                                      Text('${items['Auth'] ?? 'N/A'}'),
                                     ],
                                   ),
                                   const SizedBox(height: 5),

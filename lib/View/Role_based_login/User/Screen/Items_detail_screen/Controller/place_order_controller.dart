@@ -50,7 +50,7 @@ Future<void> placeOrder(
         'totalPrice': finalPrice,
         'status': 'pending',
         'createdAt': FieldValue.serverTimestamp(),
-        'address': address,
+        'adress': address,
       };
       final orderRef = FirebaseFirestore.instance.collection('Orders').doc();
       transaction.set(orderRef, orderData);

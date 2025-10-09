@@ -18,24 +18,14 @@ class AddItemNotifer extends StateNotifier <AddItemState> {
 
   final CollectionReference items = FirebaseFirestore.instance.collection('items');
   final CollectionReference categoriesCollection= FirebaseFirestore.instance.collection('Category');
-
-  void clearError() {
-    state = state.copyWith(errorMessage: null);
-  }
-
-  void clearSuccess() {
-    state = state.copyWith(isSuccess: false);
-  }
-
   void pickImage() async{
-    state = state.copyWith(errorMessage: null);
     try{
       final pickedFile= await ImagePicker().pickImage(source: ImageSource.gallery);
       if(pickedFile!=null){
         state=state.copyWith(imagePath:pickedFile.path);
       }
     }catch(e){
-      state = state.copyWith(errorMessage: 'Error picking image: $e');
+      throw Exception('error saving item $e');
     }
   }
 
@@ -72,17 +62,15 @@ class AddItemNotifer extends StateNotifier <AddItemState> {
   }
 
   Future<void> fetchCategory() async{
-    state = state.copyWith(errorMessage: null);
     try{
       QuerySnapshot snapshot=await categoriesCollection.get();
       List<String> categories =
       snapshot.docs.map((doc)=> doc['name'] as String).toList();
       state=state.copyWith(categories:categories);
     }catch(e){
-      state = state.copyWith(errorMessage: 'Error fetching categories: $e');
+      throw Exception('error saving item $e');
     }
   }
-
   Future<void> uploadAndSaveItem(String name, String price) async{
     if(name.isEmpty ||
         price.isEmpty ||
@@ -91,12 +79,9 @@ class AddItemNotifer extends StateNotifier <AddItemState> {
         state.sizes.isEmpty ||
         state.colors.isEmpty||
         (state.isDiscounted && state.discountPercentage == null)){
-      state = state.copyWith(errorMessage: 'Please fill all required fields and upload an image.');
-      return;
+      throw Exception('please fill all the field an upload an image');
     }
-
-    state=state.copyWith(isLoading: true, errorMessage: null, isSuccess: false);
-
+    state=state.copyWith(isLoading: true);
     try{
       final fileName=DateTime.now().microsecondsSinceEpoch.toString();
       final reference = FirebaseStorage.instance.ref().child('image/$fileName');
@@ -104,43 +89,21 @@ class AddItemNotifer extends StateNotifier <AddItemState> {
       final imageUrl = await reference.getDownloadURL();
 
       final String uid=FirebaseAuth.instance.currentUser!.uid;
-      final parsedPrice = int.tryParse(price) ?? 0;
-      final parsedDiscount = state.isDiscounted
-          ? (int.tryParse(state.discountPercentage!) ?? 0)
-          : 0;
-
-
-      DocumentReference docRef = await items.add({
+      await items.add({
         'name':name,
-        'price':parsedPrice,
-        'picture':imageUrl,
+        'price':int.tryParse(price),
+        'image':imageUrl,
         'uploadedBy':uid,
-        'category':state.selectedCategory,
+        'Auth':state.selectedCategory,
         'size':state.sizes,
         'color':state.colors,
         'isDiscounted':state.isDiscounted,
-        'discountPercentage':parsedDiscount,
-        'description':'',
-        'isCheck': false,
+        'discountPercentage':state.isDiscounted? int.tryParse(state.discountPercentage!):0,
       });
 
-      await docRef.update({'id': docRef.id});
-
-
-
-      state = state.copyWith(
-        imagePath: null,
-        selectedCategory: null,
-        sizes: [],
-        colors: [],
-        isDiscounted: false,
-        discountPercentage: null,
-        isSuccess: true,
-      );
-
+      state= AddItemState();
     }catch(e){
-      print('Error saving item: $e');
-      state = state.copyWith(errorMessage: 'Error saving item: ${e.toString()}');
+      throw Exception('Error saving item $e');
     }finally{
       state =state.copyWith(isLoading: false);
     }
