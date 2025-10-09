@@ -101,7 +101,7 @@ class _ItemsDetailScreen extends ConsumerState<ItemsDetailScreen> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(18),
+            padding: EdgeInsets.all(8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -131,7 +131,7 @@ class _ItemsDetailScreen extends ConsumerState<ItemsDetailScreen> {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const Spacer(),
+                    const Spacer(flex: 6),
                     GestureDetector(
                       onTap: () {
                         provider.toggleFavorite(widget.productItems);

@@ -82,7 +82,7 @@ class CartItems extends ConsumerWidget {
                                 }
                               },
                               child: Container(
-                                width: 25,
+                                width: 20,
                                 height: 30,
                                 decoration: const BoxDecoration(
                                   color: Colors.blue,
@@ -109,15 +109,10 @@ class CartItems extends ConsumerWidget {
                             const SizedBox(width: 10),
                             GestureDetector(
                               onTap: () {
-                                cp.addCart(
-                                    cart.productId,
-                                    cart.productData,
-                                    cart.selectedColor,
-                                    cart.selectedSize
-                                );
+                                cp.addQuantity(cart.productId);
                               },
                               child: Container(
-                                width: 25,
+                                width: 20,
                                 height: 30,
                                 decoration: const BoxDecoration(
                                   color: Colors.blue,
