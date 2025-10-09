@@ -25,6 +25,8 @@ mixin _$AddItemState {
   List<String> get colors => throw _privateConstructorUsedError;
   bool get isDiscounted => throw _privateConstructorUsedError;
   String? get discountPercentage => throw _privateConstructorUsedError;
+  String? get errorMessage => throw _privateConstructorUsedError;
+  bool get isSuccess => throw _privateConstructorUsedError;
 
   /// Create a copy of AddItemState
   /// with the given fields replaced by the non-null parameter values.
@@ -49,6 +51,8 @@ abstract class $AddItemStateCopyWith<$Res> {
     List<String> colors,
     bool isDiscounted,
     String? discountPercentage,
+    String? errorMessage,
+    bool isSuccess,
   });
 }
 
@@ -75,6 +79,8 @@ class _$AddItemStateCopyWithImpl<$Res, $Val extends AddItemState>
     Object? colors = null,
     Object? isDiscounted = null,
     Object? discountPercentage = freezed,
+    Object? errorMessage = freezed,
+    Object? isSuccess = null,
   }) {
     return _then(
       _value.copyWith(
@@ -110,6 +116,14 @@ class _$AddItemStateCopyWithImpl<$Res, $Val extends AddItemState>
                 ? _value.discountPercentage
                 : discountPercentage // ignore: cast_nullable_to_non_nullable
                       as String?,
+            errorMessage: freezed == errorMessage
+                ? _value.errorMessage
+                : errorMessage // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            isSuccess: null == isSuccess
+                ? _value.isSuccess
+                : isSuccess // ignore: cast_nullable_to_non_nullable
+                      as bool,
           )
           as $Val,
     );
@@ -134,6 +148,8 @@ abstract class _$$AddItemStateImplCopyWith<$Res>
     List<String> colors,
     bool isDiscounted,
     String? discountPercentage,
+    String? errorMessage,
+    bool isSuccess,
   });
 }
 
@@ -159,6 +175,8 @@ class __$$AddItemStateImplCopyWithImpl<$Res>
     Object? colors = null,
     Object? isDiscounted = null,
     Object? discountPercentage = freezed,
+    Object? errorMessage = freezed,
+    Object? isSuccess = null,
   }) {
     return _then(
       _$AddItemStateImpl(
@@ -194,6 +212,14 @@ class __$$AddItemStateImplCopyWithImpl<$Res>
             ? _value.discountPercentage
             : discountPercentage // ignore: cast_nullable_to_non_nullable
                   as String?,
+        errorMessage: freezed == errorMessage
+            ? _value.errorMessage
+            : errorMessage // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        isSuccess: null == isSuccess
+            ? _value.isSuccess
+            : isSuccess // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }
@@ -211,6 +237,8 @@ class _$AddItemStateImpl implements _AddItemState {
     final List<String> colors = const [],
     this.isDiscounted = false,
     this.discountPercentage,
+    this.errorMessage,
+    this.isSuccess = false,
   }) : _categories = categories,
        _sizes = sizes,
        _colors = colors;
@@ -254,10 +282,15 @@ class _$AddItemStateImpl implements _AddItemState {
   final bool isDiscounted;
   @override
   final String? discountPercentage;
+  @override
+  final String? errorMessage;
+  @override
+  @JsonKey()
+  final bool isSuccess;
 
   @override
   String toString() {
-    return 'AddItemState(imagePath: $imagePath, isLoading: $isLoading, selectedCategory: $selectedCategory, categories: $categories, sizes: $sizes, colors: $colors, isDiscounted: $isDiscounted, discountPercentage: $discountPercentage)';
+    return 'AddItemState(imagePath: $imagePath, isLoading: $isLoading, selectedCategory: $selectedCategory, categories: $categories, sizes: $sizes, colors: $colors, isDiscounted: $isDiscounted, discountPercentage: $discountPercentage, errorMessage: $errorMessage, isSuccess: $isSuccess)';
   }
 
   @override
@@ -280,7 +313,11 @@ class _$AddItemStateImpl implements _AddItemState {
             (identical(other.isDiscounted, isDiscounted) ||
                 other.isDiscounted == isDiscounted) &&
             (identical(other.discountPercentage, discountPercentage) ||
-                other.discountPercentage == discountPercentage));
+                other.discountPercentage == discountPercentage) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage) &&
+            (identical(other.isSuccess, isSuccess) ||
+                other.isSuccess == isSuccess));
   }
 
   @override
@@ -294,6 +331,8 @@ class _$AddItemStateImpl implements _AddItemState {
     const DeepCollectionEquality().hash(_colors),
     isDiscounted,
     discountPercentage,
+    errorMessage,
+    isSuccess,
   );
 
   /// Create a copy of AddItemState
@@ -315,6 +354,8 @@ abstract class _AddItemState implements AddItemState {
     final List<String> colors,
     final bool isDiscounted,
     final String? discountPercentage,
+    final String? errorMessage,
+    final bool isSuccess,
   }) = _$AddItemStateImpl;
 
   @override
@@ -333,6 +374,10 @@ abstract class _AddItemState implements AddItemState {
   bool get isDiscounted;
   @override
   String? get discountPercentage;
+  @override
+  String? get errorMessage;
+  @override
+  bool get isSuccess;
 
   /// Create a copy of AddItemState
   /// with the given fields replaced by the non-null parameter values.
