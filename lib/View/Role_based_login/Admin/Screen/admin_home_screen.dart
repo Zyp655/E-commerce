@@ -20,16 +20,13 @@ class AdminHomeScreen extends ConsumerStatefulWidget {
 }
 
 class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen> {
-  final CollectionReference items = FirebaseFirestore.instance.collection(
-    'items',
-  );
   String? selectedCategory;
-  List<String> categories = [];
+  List<String> categories = ['Tất cả'];
 
   @override
   void initState() {
-    fetchCategories();
     super.initState();
+    fetchCategories();
   }
 
   Future<void> fetchCategories() async {
@@ -37,13 +34,24 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen> {
         .collection('Category')
         .get();
     setState(() {
-      categories = snapshot.docs.map((doc) => doc['name'] as String).toList();
+      categories.addAll(
+        snapshot.docs.map((doc) => doc['name'] as String).toList(),
+      );
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    String uid = FirebaseAuth.instance.currentUser!.uid;
+    final String uid = FirebaseAuth.instance.currentUser!.uid;
+
+    Query itemsQuery = FirebaseFirestore.instance
+        .collection('items')
+        .where("uploadedBy", isEqualTo: uid);
+
+    if (selectedCategory != null && selectedCategory != 'All') {
+      itemsQuery = itemsQuery.where('category', isEqualTo: selectedCategory);
+    }
+
     return Scaffold(
       backgroundColor: Colors.blueAccent[70],
       body: SafeArea(
@@ -54,7 +62,7 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen> {
               Row(
                 children: [
                   const Text(
-                    'Your Upload Items',
+                    'Your Uploaded Items',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const Spacer(),
@@ -114,21 +122,25 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen> {
                     ],
                   ),
                   GestureDetector(
-                    onTap: () {
-                      _authService.signOut();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
-                        ),
-                      );
-                      ref.invalidate(favoriteProvider);
-                      ref.invalidate(cartService);
+                    onTap: () async {
+                      await _authService.signOut();
+                      if (mounted) {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginScreen(),
+                          ),
+                          (route) => false,
+                        );
+                        ref.invalidate(favoriteProvider);
+                        ref.invalidate(cartService);
+                      }
                     },
                     child: const Icon(Icons.exit_to_app),
                   ),
-
                   DropdownButton<String>(
+                    hint: const Text("filter category"),
+                    value: selectedCategory,
                     items: categories.map((String category) {
                       return DropdownMenuItem(
                         value: category,
@@ -145,25 +157,24 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen> {
                   ),
                 ],
               ),
-
               Expanded(
-                child: StreamBuilder(
-                  stream: items
-                      .where("uploadedBy", isEqualTo: uid)
-                      .where('category', isEqualTo: selectedCategory)
-                      .snapshots(),
-                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: itemsQuery.snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
                     if (snapshot.hasError) {
                       return const Center(child: Text('Error loading items'));
                     }
                     final documents = snapshot.data?.docs ?? [];
                     if (documents.isEmpty) {
-                      return const Center(child: Text('no items uploaded'));
+                      return const Center(child: Text('No items uploaded'));
                     }
                     return ListView.builder(
                       itemCount: documents.length,
                       itemBuilder: (context, index) {
-                        final items =
+                        final itemData =
                             documents[index].data() as Map<String, dynamic>;
                         return Padding(
                           padding: EdgeInsets.only(bottom: 10),
@@ -173,43 +184,51 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen> {
                             child: ListTile(
                               leading: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: CachedNetworkImage(
-                                  imageUrl: items['picture'],
-                                  height: 60,
-                                  width: 60,
-                                  fit: BoxFit.cover,
-                                ),
+                                child:
+                                    (itemData['image'] != null &&
+                                        itemData['image'].isNotEmpty)
+                                    ? CachedNetworkImage(
+                                        imageUrl: itemData['image'],
+                                        height: 60,
+                                        width: 60,
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) =>
+                                            const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            ),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error),
+                                      )
+                                    : Container(
+                                        height: 60,
+                                        width: 60,
+                                        color: Colors.grey[200],
+                                        child: Icon(
+                                          Icons.image_not_supported,
+                                          color: Colors.grey[400],
+                                        ),
+                                      ),
                               ),
-                              title: Text(
-                                items['name'] ?? "N/A",
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
+                              title: Text(itemData['name'] ?? "N/A"),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
                                     children: [
                                       Text(
-                                        items['price'] != null
-                                            ? '\$${items['price']}.00'
+                                        itemData['price'] != null
+                                            ? '\$${itemData['price']}.00'
                                             : 'N/A',
                                         style: const TextStyle(
-                                          fontSize: 15,
-                                          letterSpacing: -1,
                                           fontWeight: FontWeight.w600,
                                           color: Colors.red,
                                         ),
                                       ),
                                       const SizedBox(width: 5),
-                                      Text('${items['category'] ?? 'N/A'}'),
+                                      Text('${itemData['category'] ?? 'N/A'}'),
                                     ],
                                   ),
-                                  const SizedBox(height: 5),
                                 ],
                               ),
                             ),
@@ -224,12 +243,10 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen> {
           ),
         ),
       ),
-
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blueGrey,
-
-        onPressed: () async {
-          await Navigator.of(
+        onPressed: () {
+          Navigator.of(
             context,
           ).push(MaterialPageRoute(builder: (context) => AddItems()));
         },

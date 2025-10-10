@@ -12,6 +12,7 @@
         "cloud_firestore",
         "cupertino_icons",
         "dotted_line",
+        "firebase_admin",
         "firebase_auth",
         "firebase_core",
         "firebase_storage",
@@ -19,6 +20,7 @@
         "flutter_riverpod",
         "freezed",
         "google_fonts",
+        "google_sign_in",
         "iconsax",
         "iconsax_flutter",
         "image_picker",
@@ -54,6 +56,39 @@
         "stream_channel",
         "test_api",
         "vector_math"
+      ]
+    },
+    {
+      "name": "google_sign_in",
+      "version": "7.2.0",
+      "dependencies": [
+        "flutter",
+        "google_sign_in_android",
+        "google_sign_in_ios",
+        "google_sign_in_platform_interface",
+        "google_sign_in_web"
+      ]
+    },
+    {
+      "name": "firebase_admin",
+      "version": "0.3.1",
+      "dependencies": [
+        "_discoveryapis_commons",
+        "clock",
+        "collection",
+        "crypto_keys",
+        "dotenv",
+        "firebase_dart",
+        "firebaseapis",
+        "gcloud",
+        "googleapis",
+        "http",
+        "jose",
+        "meta",
+        "openid_client",
+        "path",
+        "snapshot",
+        "x509"
       ]
     },
     {
@@ -369,6 +404,185 @@
       ]
     },
     {
+      "name": "google_sign_in_web",
+      "version": "1.1.0",
+      "dependencies": [
+        "flutter",
+        "flutter_web_plugins",
+        "google_identity_services_web",
+        "google_sign_in_platform_interface",
+        "http",
+        "web"
+      ]
+    },
+    {
+      "name": "google_sign_in_platform_interface",
+      "version": "3.1.0",
+      "dependencies": [
+        "flutter",
+        "plugin_platform_interface"
+      ]
+    },
+    {
+      "name": "google_sign_in_ios",
+      "version": "6.2.1",
+      "dependencies": [
+        "flutter",
+        "google_sign_in_platform_interface"
+      ]
+    },
+    {
+      "name": "google_sign_in_android",
+      "version": "7.2.1",
+      "dependencies": [
+        "flutter",
+        "google_sign_in_platform_interface"
+      ]
+    },
+    {
+      "name": "googleapis",
+      "version": "14.0.0",
+      "dependencies": [
+        "_discoveryapis_commons",
+        "http"
+      ]
+    },
+    {
+      "name": "_discoveryapis_commons",
+      "version": "1.0.7",
+      "dependencies": [
+        "http",
+        "http_parser",
+        "meta"
+      ]
+    },
+    {
+      "name": "snapshot",
+      "version": "0.2.6+3",
+      "dependencies": [
+        "collection",
+        "intl",
+        "meta",
+        "path",
+        "quiver",
+        "rxdart"
+      ]
+    },
+    {
+      "name": "firebaseapis",
+      "version": "0.2.0",
+      "dependencies": [
+        "_discoveryapis_commons",
+        "http"
+      ]
+    },
+    {
+      "name": "gcloud",
+      "version": "0.8.19",
+      "dependencies": [
+        "_discoveryapis_commons",
+        "googleapis",
+        "http",
+        "meta",
+        "retry"
+      ]
+    },
+    {
+      "name": "crypto_keys",
+      "version": "0.3.0+2",
+      "dependencies": [
+        "collection",
+        "meta",
+        "pointycastle",
+        "quiver"
+      ]
+    },
+    {
+      "name": "http",
+      "version": "1.5.0",
+      "dependencies": [
+        "async",
+        "http_parser",
+        "meta",
+        "web"
+      ]
+    },
+    {
+      "name": "firebase_dart",
+      "version": "1.5.3",
+      "dependencies": [
+        "_discoveryapis_commons",
+        "async",
+        "clock",
+        "collection",
+        "crypto",
+        "expressions",
+        "firebaseapis",
+        "hive",
+        "http",
+        "intl",
+        "jose",
+        "js",
+        "logging",
+        "meta",
+        "openid_client",
+        "quiver",
+        "rxdart",
+        "sortedmap",
+        "stream_channel",
+        "synchronized",
+        "uuid",
+        "web",
+        "web_socket_channel"
+      ]
+    },
+    {
+      "name": "openid_client",
+      "version": "0.4.9+1",
+      "dependencies": [
+        "args",
+        "clock",
+        "http",
+        "jose",
+        "logging",
+        "meta",
+        "pointycastle",
+        "web"
+      ]
+    },
+    {
+      "name": "dotenv",
+      "version": "4.2.0",
+      "dependencies": [
+        "args",
+        "meta"
+      ]
+    },
+    {
+      "name": "jose",
+      "version": "0.3.5",
+      "dependencies": [
+        "archive",
+        "asn1lib",
+        "collection",
+        "crypto_keys",
+        "http",
+        "http_parser",
+        "meta",
+        "typed_data",
+        "x509"
+      ]
+    },
+    {
+      "name": "x509",
+      "version": "0.2.4+3",
+      "dependencies": [
+        "asn1lib",
+        "crypto_keys",
+        "quiver"
+      ]
+    },
+    {
       "name": "serverpod_client",
       "version": "2.9.1",
       "dependencies": [
@@ -629,16 +843,6 @@
       "version": "3.2.2",
       "dependencies": [
         "async"
-      ]
-    },
-    {
-      "name": "http",
-      "version": "1.5.0",
-      "dependencies": [
-        "async",
-        "http_parser",
-        "meta",
-        "web"
       ]
     },
     {
@@ -1065,6 +1269,133 @@
       ]
     },
     {
+      "name": "google_identity_services_web",
+      "version": "0.3.3+1",
+      "dependencies": [
+        "meta",
+        "web"
+      ]
+    },
+    {
+      "name": "flutter_web_plugins",
+      "version": "0.0.0",
+      "dependencies": [
+        "flutter"
+      ]
+    },
+    {
+      "name": "plugin_platform_interface",
+      "version": "2.1.8",
+      "dependencies": [
+        "meta"
+      ]
+    },
+    {
+      "name": "http_parser",
+      "version": "4.1.2",
+      "dependencies": [
+        "collection",
+        "source_span",
+        "string_scanner",
+        "typed_data"
+      ]
+    },
+    {
+      "name": "rxdart",
+      "version": "0.28.0",
+      "dependencies": []
+    },
+    {
+      "name": "quiver",
+      "version": "3.2.2",
+      "dependencies": [
+        "matcher"
+      ]
+    },
+    {
+      "name": "intl",
+      "version": "0.20.2",
+      "dependencies": [
+        "clock",
+        "meta",
+        "path"
+      ]
+    },
+    {
+      "name": "retry",
+      "version": "3.1.2",
+      "dependencies": []
+    },
+    {
+      "name": "pointycastle",
+      "version": "4.0.0",
+      "dependencies": [
+        "collection",
+        "convert"
+      ]
+    },
+    {
+      "name": "synchronized",
+      "version": "3.4.0",
+      "dependencies": []
+    },
+    {
+      "name": "uuid",
+      "version": "4.5.1",
+      "dependencies": [
+        "crypto",
+        "fixnum",
+        "meta",
+        "sprintf"
+      ]
+    },
+    {
+      "name": "expressions",
+      "version": "0.2.5+3",
+      "dependencies": [
+        "meta",
+        "petitparser",
+        "quiver",
+        "rxdart"
+      ]
+    },
+    {
+      "name": "hive",
+      "version": "2.2.3",
+      "dependencies": [
+        "crypto",
+        "meta"
+      ]
+    },
+    {
+      "name": "sortedmap",
+      "version": "0.5.4",
+      "dependencies": [
+        "quiver"
+      ]
+    },
+    {
+      "name": "archive",
+      "version": "4.0.7",
+      "dependencies": [
+        "crypto",
+        "path",
+        "posix"
+      ]
+    },
+    {
+      "name": "asn1lib",
+      "version": "1.6.5",
+      "dependencies": []
+    },
+    {
+      "name": "typed_data",
+      "version": "1.4.0",
+      "dependencies": [
+        "collection"
+      ]
+    },
+    {
       "name": "serverpod_serialization",
       "version": "2.9.1",
       "dependencies": [
@@ -1086,13 +1417,6 @@
         "flutter",
         "meta",
         "plugin_platform_interface"
-      ]
-    },
-    {
-      "name": "flutter_web_plugins",
-      "version": "0.0.0",
-      "dependencies": [
-        "flutter"
       ]
     },
     {
@@ -1141,28 +1465,11 @@
       ]
     },
     {
-      "name": "http_parser",
-      "version": "4.1.2",
-      "dependencies": [
-        "collection",
-        "source_span",
-        "string_scanner",
-        "typed_data"
-      ]
-    },
-    {
       "name": "file",
       "version": "7.0.1",
       "dependencies": [
         "meta",
         "path"
-      ]
-    },
-    {
-      "name": "typed_data",
-      "version": "1.4.0",
-      "dependencies": [
-        "collection"
       ]
     },
     {
@@ -1212,16 +1519,6 @@
       ]
     },
     {
-      "name": "uuid",
-      "version": "4.5.1",
-      "dependencies": [
-        "crypto",
-        "fixnum",
-        "meta",
-        "sprintf"
-      ]
-    },
-    {
       "name": "sqflite",
       "version": "2.4.2",
       "dependencies": [
@@ -1232,11 +1529,6 @@
         "sqflite_darwin",
         "sqflite_platform_interface"
       ]
-    },
-    {
-      "name": "rxdart",
-      "version": "0.28.0",
-      "dependencies": []
     },
     {
       "name": "test",
@@ -1278,13 +1570,6 @@
         "firebase_core",
         "firebase_core_platform_interface",
         "flutter",
-        "meta"
-      ]
-    },
-    {
-      "name": "plugin_platform_interface",
-      "version": "2.1.8",
-      "dependencies": [
         "meta"
       ]
     },
@@ -1346,6 +1631,33 @@
       "dependencies": []
     },
     {
+      "name": "fixnum",
+      "version": "1.1.1",
+      "dependencies": []
+    },
+    {
+      "name": "sprintf",
+      "version": "7.0.0",
+      "dependencies": []
+    },
+    {
+      "name": "petitparser",
+      "version": "7.0.1",
+      "dependencies": [
+        "collection",
+        "meta"
+      ]
+    },
+    {
+      "name": "posix",
+      "version": "6.0.3",
+      "dependencies": [
+        "ffi",
+        "meta",
+        "path"
+      ]
+    },
+    {
       "name": "dbus",
       "version": "0.7.11",
       "dependencies": [
@@ -1354,11 +1666,6 @@
         "meta",
         "xml"
       ]
-    },
-    {
-      "name": "fixnum",
-      "version": "1.1.1",
-      "dependencies": []
     },
     {
       "name": "ffi",
@@ -1377,11 +1684,6 @@
         "meta",
         "path"
       ]
-    },
-    {
-      "name": "sprintf",
-      "version": "7.0.0",
-      "dependencies": []
     },
     {
       "name": "sqflite_common",
@@ -1510,11 +1812,6 @@
       ]
     },
     {
-      "name": "synchronized",
-      "version": "3.4.0",
-      "dependencies": []
-    },
-    {
       "name": "source_maps",
       "version": "0.10.13",
       "dependencies": [
@@ -1536,14 +1833,6 @@
       "dependencies": [
         "args",
         "yaml"
-      ]
-    },
-    {
-      "name": "petitparser",
-      "version": "7.0.1",
-      "dependencies": [
-        "collection",
-        "meta"
       ]
     }
   ],
