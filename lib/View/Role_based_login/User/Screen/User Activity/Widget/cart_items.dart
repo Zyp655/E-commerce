@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce/Core/Common/color_conversion.dart';
 import 'package:e_commerce/Core/Provider/cart_provider.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +15,6 @@ class CartItems extends ConsumerWidget {
     Size size = MediaQuery
         .of(context)
         .size;
-    final finalPrice = num.parse(
-      (cart.productData['price'] *
-          (1 - cart.productData['discountPercentage'] / 100))
-          .toStringAsFixed(2),
-    );
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,

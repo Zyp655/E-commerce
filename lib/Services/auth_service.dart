@@ -4,12 +4,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
-
+import 'package:e_commerce/.env.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final googleSignIn = GoogleSignIn.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
 
+  AuthService() {
+    initializeGoogleSignIn();
+  }
   Future<String?> signup({
     required String name,
     required String email,
@@ -19,9 +22,9 @@ class AuthService {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(
-        email: email.trim(),
-        password: password.trim(),
-      );
+            email: email.trim(),
+            password: password.trim(),
+          );
 
       await _firestore.collection('users').doc(userCredential.user!.uid).set({
         'name': name.trim(),
@@ -29,7 +32,11 @@ class AuthService {
         'role': role,
       });
       return null;
+    } on FirebaseAuthException catch (e) {
+      if (kDebugMode) debugPrint('Signup Error: ${e.message}');
+      return e.message;
     } catch (e) {
+      if (kDebugMode) debugPrint('Signup Error: $e');
       return e.toString();
     }
   }
@@ -49,8 +56,17 @@ class AuthService {
           .doc(userCredential.user!.uid)
           .get();
 
-      return userDoc['role'];
+      if (userDoc.exists &&
+          userDoc.data() is Map<String, dynamic> &&
+          (userDoc.data() as Map<String, dynamic>).containsKey('role')) {
+        return userDoc['role'];
+      }
+      return 'User';
+    } on FirebaseAuthException catch (e) {
+      if (kDebugMode) debugPrint('Login Error: ${e.message}');
+      return e.message;
     } catch (e) {
+      if (kDebugMode) debugPrint('Login Error: $e');
       return e.toString();
     }
   }
@@ -59,45 +75,41 @@ class AuthService {
     await _auth.signOut();
   }
 
-  Future<String?> sendPasswordResetEmail({
-    required String email,
-  }) async {
+  Future<String?> sendPasswordResetEmail({required String email}) async {
     try {
       await _auth.sendPasswordResetEmail(email: email.trim());
       return null;
     } on FirebaseAuthException catch (e) {
+      if (kDebugMode) debugPrint('Password Reset Error: ${e.message}');
       return e.message;
     }
   }
 
+
   Future<String?> signInWithGoogle({required BuildContext context}) async {
     try {
-
-      const String serverClientId = "YOUR_SERVER_CLIENT_ID";
-
-      final GoogleSignIn googleSignIn = GoogleSignIn.instance(
-        serverClientId: serverClientId,
-      );
-
-      final GoogleSignInAccount? googleUser = await googleSignIn.authenticate();
-
+      await initializeGoogleSignIn();
+      final GoogleSignInAccount? googleUser = await _googleSignIn
+          .authenticate();
       if (googleUser == null) {
         return null;
       }
-
       final GoogleSignInAuthentication googleAuth =
-      await googleUser.authentication;
+          await googleUser.authentication;
       final OAuthCredential credential = GoogleAuthProvider.credential(
         idToken: googleAuth.idToken,
       );
 
-      final UserCredential userCredential =
-      await FirebaseAuth.instance.signInWithCredential(credential);
+      final UserCredential userCredential = await _auth.signInWithCredential(
+        credential,
+      );
       final User? user = userCredential.user;
 
       if (user != null) {
-        final DocumentSnapshot userDoc =
-        await _firestore.collection('users').doc(user.uid).get();
+        final DocumentSnapshot userDoc = await _firestore
+            .collection('users')
+            .doc(user.uid)
+            .get();
 
         if (!userDoc.exists) {
           await _firestore.collection('users').doc(user.uid).set({
@@ -118,7 +130,7 @@ class AuthService {
       if (context.mounted) {
         showSnackBar(context, 'An unexpected error occurred.');
         if (kDebugMode) {
-          print(e);
+          debugPrint('Google Sign-In Unexpected Error: $e');
         }
       }
       return e.toString();
@@ -131,7 +143,7 @@ void _handleAuthException(FirebaseAuthException e, BuildContext context) {
   switch (e.code) {
     case 'account-exists-with-different-credential':
       errorMessage =
-      'An account already exists with the same email address but different sign-in credentials.';
+          'An account already exists with the same email address but different sign-in credentials.';
       break;
     case 'invalid-credential':
       errorMessage = 'The credential received is malformed or has expired.';
@@ -150,4 +162,3 @@ void _handleAuthException(FirebaseAuthException e, BuildContext context) {
   }
   showSnackBar(context, errorMessage);
 }
-

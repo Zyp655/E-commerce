@@ -157,12 +157,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: double.infinity,
                       child: ElevatedButton.icon(
                         onPressed: _loginWithGoogle,
-                        icon: Image.asset('assets/Auth/google.png', height: 24),
+                        icon: Image.asset('assets/Auth/google.png', height: 4),
                         label: const Text('Sign in with Google'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.black,
-                          side: BorderSide(color: Colors.grey.shade300),
+                          side: BorderSide(color: Colors.grey.shade100),
                         ),
                       ),
                     ),

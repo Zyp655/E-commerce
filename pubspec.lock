@@ -609,7 +609,7 @@ packages:
     source: hosted
     version: "7.2.0"
   google_sign_in_android:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: google_sign_in_android
       sha256: "799165f4c0621ed233bccdded4c2e92739bc1fe73e970163b2f7493b301adad3"

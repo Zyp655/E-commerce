@@ -21,6 +21,7 @@
         "freezed",
         "google_fonts",
         "google_sign_in",
+        "google_sign_in_android",
         "iconsax",
         "iconsax_flutter",
         "image_picker",
@@ -56,6 +57,14 @@
         "stream_channel",
         "test_api",
         "vector_math"
+      ]
+    },
+    {
+      "name": "google_sign_in_android",
+      "version": "7.2.1",
+      "dependencies": [
+        "flutter",
+        "google_sign_in_platform_interface"
       ]
     },
     {
@@ -404,6 +413,14 @@
       ]
     },
     {
+      "name": "google_sign_in_platform_interface",
+      "version": "3.1.0",
+      "dependencies": [
+        "flutter",
+        "plugin_platform_interface"
+      ]
+    },
+    {
       "name": "google_sign_in_web",
       "version": "1.1.0",
       "dependencies": [
@@ -416,24 +433,8 @@
       ]
     },
     {
-      "name": "google_sign_in_platform_interface",
-      "version": "3.1.0",
-      "dependencies": [
-        "flutter",
-        "plugin_platform_interface"
-      ]
-    },
-    {
       "name": "google_sign_in_ios",
       "version": "6.2.1",
-      "dependencies": [
-        "flutter",
-        "google_sign_in_platform_interface"
-      ]
-    },
-    {
-      "name": "google_sign_in_android",
-      "version": "7.2.1",
       "dependencies": [
         "flutter",
         "google_sign_in_platform_interface"
@@ -1269,6 +1270,13 @@
       ]
     },
     {
+      "name": "plugin_platform_interface",
+      "version": "2.1.8",
+      "dependencies": [
+        "meta"
+      ]
+    },
+    {
       "name": "google_identity_services_web",
       "version": "0.3.3+1",
       "dependencies": [
@@ -1281,13 +1289,6 @@
       "version": "0.0.0",
       "dependencies": [
         "flutter"
-      ]
-    },
-    {
-      "name": "plugin_platform_interface",
-      "version": "2.1.8",
-      "dependencies": [
-        "meta"
       ]
     },
     {
